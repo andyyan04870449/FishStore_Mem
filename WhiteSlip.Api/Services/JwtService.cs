@@ -9,6 +9,7 @@ namespace WhiteSlip.Api.Services;
 public interface IJwtService
 {
     string GenerateToken(string deviceId);
+    string GenerateUserToken(string userId, string role);
     ClaimsPrincipal? ValidateToken(string token);
 }
 
@@ -41,6 +42,28 @@ public class JwtService : IJwtService
                 SecurityAlgorithms.HmacSha256Signature)
         };
 
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+
+    public string GenerateUserToken(string userId, string role)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_settings.Secret);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId),
+                new Claim(ClaimTypes.Role, role)
+            }),
+            Expires = DateTime.UtcNow.AddHours(_settings.ExpirationHours),
+            Issuer = _settings.Issuer,
+            Audience = _settings.Audience,
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+        };
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }

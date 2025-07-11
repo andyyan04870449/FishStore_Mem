@@ -13,6 +13,21 @@ public class AuthResponse
     public DateTime? ExpiresAt { get; set; }
 }
 
+public class UserLoginRequest
+{
+    public string Account { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+}
+
+public class UserLoginResponse
+{
+    public bool Success { get; set; }
+    public string? Token { get; set; }
+    public string? Role { get; set; }
+    public string? Message { get; set; }
+    public DateTime? ExpiresAt { get; set; }
+}
+
 public class JwtSettings
 {
     public string Secret { get; set; } = string.Empty;

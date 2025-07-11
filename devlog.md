@@ -36,24 +36,19 @@
 
 ## 2025-07-12
 
-### 已完成事項
-- 完成第二階段「核心 API 開發」：
-  - 實作 JWT 驗證機制與服務
-  - 新增 AuthController（裝置認證 API）
-  - 新增 MenuController（菜單查詢與更新 API）
-  - 新增 OrdersController（批次訂單上傳與查詢 API）
-  - 完成所有資料模型、DTO、服務與控制器的程式碼撰寫
-- 重新設計 Device 與 Menu 資料表結構，並產生新的 Migration 檔案
-- 修正 WhiteSlipDbContext 配置，確保資料表結構與模型同步
-- 程式碼已通過建置，無語法錯誤
+### 已完成事項（第三階段）
+- 實作 RBAC 權限驗證，JWT 內含角色資訊，API 端點支援 [Authorize(Roles=...)]
+- 新增 User 登入 API，支援帳號密碼登入，JWT 依角色分級
+- 新增 ReportsController，支援日期區間查詢、營業數據彙整、CSV 匯出（限 Manager 以上）
+- 新增 UsersController，僅限 Admin 可查詢、建立、修改、刪除使用者
+- 所有程式碼已通過建置，無語法錯誤
 
 ### 尚待處理
-- PostgreSQL 資料庫尚未啟動，`dotnet ef database update` 執行失敗，待資料庫啟動後再進行 migration
 - 尚未進行 API 實測
+- 尚未進行第三階段 migration（如有必要）
 
 ### 下一步
-- 啟動資料庫並執行 migration
 - 進行 API 功能測試
-- 進入第三階段「報表與權限系統」開發
+- 進入第四階段「監控與維運」開發
 
 --- 

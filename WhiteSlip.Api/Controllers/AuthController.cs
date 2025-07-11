@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using WhiteSlip.Api.Data;
 using WhiteSlip.Api.Models;
 using WhiteSlip.Api.Services;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace WhiteSlip.Api.Controllers;
 
@@ -86,6 +88,63 @@ public class AuthController : ControllerBase
             {
                 Success = false,
                 Message = "認證服務暫時不可用"
+            });
+        }
+    }
+
+    [HttpPost("user-login")]
+    public async Task<ActionResult<UserLoginResponse>> UserLogin([FromBody] UserLoginRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("使用者登入請求: {Account}", request.Account);
+            if (string.IsNullOrWhiteSpace(request.Account) || string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest(new UserLoginResponse
+                {
+                    Success = false,
+                    Message = "帳號或密碼不得為空"
+                });
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Account == request.Account);
+            if (user == null)
+            {
+                return Unauthorized(new UserLoginResponse
+                {
+                    Success = false,
+                    Message = "帳號或密碼錯誤"
+                });
+            }
+            // 密碼驗證（假設已雜湊，這裡用 SHA256 範例）
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(request.Password));
+            var hashString = BitConverter.ToString(hash).Replace("-", "").ToLower();
+            if (user.HashedPw != hashString)
+            {
+                return Unauthorized(new UserLoginResponse
+                {
+                    Success = false,
+                    Message = "帳號或密碼錯誤"
+                });
+            }
+            // 產生 JWT
+            var token = _jwtService.GenerateUserToken(user.UserId.ToString(), user.Role);
+            var expiresAt = DateTime.UtcNow.AddHours(20);
+            return Ok(new UserLoginResponse
+            {
+                Success = true,
+                Token = token,
+                Role = user.Role,
+                ExpiresAt = expiresAt,
+                Message = "登入成功"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "使用者登入過程中發生錯誤: {Account}", request.Account);
+            return StatusCode(500, new UserLoginResponse
+            {
+                Success = false,
+                Message = "登入服務暫時不可用"
             });
         }
     }
