@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "CyI5+OyyvvzbUSJ8MnJ6OjlDPV06+c/SKougcNU7zIQ=",
+  "Source": "WhiteSlip.Api",
+  "BasePath": "_content/WhiteSlip.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
