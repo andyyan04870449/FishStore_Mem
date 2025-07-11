@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { loginStart, loginSuccess, loginFailure } from '../store/slices/authSlice';
 import { LoginRequest } from '../types';
+import { authService } from '../services/authService';
 
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,29 +15,20 @@ const LoginPage: React.FC = () => {
     try {
       dispatch(loginStart());
       
-      // TODO: 實作 API 呼叫
-      const response = await fetch('/api/v1/auth/user-login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await authService.login(values);
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.success) {
         dispatch(loginSuccess({
           user: {
             id: '1',
             account: values.account,
-            role: data.role as 'Admin' | 'Manager' | 'Staff',
+            role: response.role as 'Admin' | 'Manager' | 'Staff',
           },
-          token: data.token,
+          token: response.token,
         }));
         message.success('登入成功');
       } else {
-        dispatch(loginFailure(data.message || '登入失敗'));
+        dispatch(loginFailure(response.message || '登入失敗'));
       }
     } catch (err) {
       dispatch(loginFailure('網路錯誤，請稍後再試'));

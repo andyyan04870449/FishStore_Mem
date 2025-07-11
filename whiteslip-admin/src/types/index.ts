@@ -34,6 +34,7 @@ export interface MenuCategory {
 }
 
 export interface Menu {
+  id: string;
   version: number;
   lastUpdated: string;
   menu: {

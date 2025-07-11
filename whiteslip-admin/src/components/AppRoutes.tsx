@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
+import MenuPage from '../pages/MenuPage';
+import OrdersPage from '../pages/OrdersPage';
 import Layout from './Layout/Layout';
 
 const AppRoutes: React.FC = () => {
@@ -22,6 +24,8 @@ const AppRoutes: React.FC = () => {
     <Layout>
       <Routes>
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
