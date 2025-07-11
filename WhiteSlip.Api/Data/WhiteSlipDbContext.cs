@@ -25,8 +25,10 @@ public class WhiteSlipDbContext : DbContext
             entity.ToTable("devices");
             entity.HasKey(e => e.DeviceId);
             entity.Property(e => e.DeviceId).HasColumnName("device_id");
+            entity.Property(e => e.DeviceCode).HasColumnName("device_code").HasMaxLength(50).IsRequired();
             entity.Property(e => e.Jwt).HasColumnName("jwt").IsRequired();
             entity.Property(e => e.LastSeen).HasColumnName("last_seen");
+            entity.HasIndex(e => e.DeviceCode).IsUnique();
         });
 
         // User 配置
@@ -46,13 +48,11 @@ public class WhiteSlipDbContext : DbContext
         modelBuilder.Entity<Menu>(entity =>
         {
             entity.ToTable("menus");
-            entity.HasKey(e => e.Sku);
-            entity.Property(e => e.Sku).HasColumnName("sku").HasMaxLength(50);
-            entity.Property(e => e.Name).HasColumnName("name").HasMaxLength(200).IsRequired();
-            entity.Property(e => e.Price).HasColumnName("price").HasColumnType("decimal(10,2)").IsRequired();
-            entity.Property(e => e.Category).HasColumnName("category").HasMaxLength(100);
-            entity.Property(e => e.Version).HasColumnName("version");
-            entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("id").UseIdentityColumn();
+            entity.Property(e => e.Version).HasColumnName("version").IsRequired();
+            entity.Property(e => e.MenuData).HasColumnName("menu_data").IsRequired();
+            entity.Property(e => e.LastUpdated).HasColumnName("last_updated");
         });
 
         // Order 配置

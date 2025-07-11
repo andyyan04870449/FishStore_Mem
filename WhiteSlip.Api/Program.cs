@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
 using WhiteSlip.Api.Data;
+using WhiteSlip.Api.Models;
+using WhiteSlip.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +28,53 @@ Console.WriteLine($"[啟動] 資料庫連線字串：{connStr}"); // 僅供開�
 builder.Services.AddDbContext<WhiteSlipDbContext>(options =>
     options.UseNpgsql(connStr));
 
+// 配置 JWT 設定
+var jwtSettings = new JwtSettings
+{
+    Secret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? "CHANGE_ME_32_BYTE_SECRET_KEY_HERE",
+    Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "white-slip-api",
+    Audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "white-slip-app",
+    ExpirationHours = 20
+};
+
+builder.Services.AddSingleton(jwtSettings);
+
+// 配置 JWT 認證
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+            ValidateIssuer = true,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidateAudience = true,
+            ValidAudience = jwtSettings.Audience,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// 配置服務
+builder.Services.AddScoped<IJwtService, JwtService>();
+
+// 配置控制器
+builder.Services.AddControllers();
+
+// 配置 CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // 配置健康檢查
 builder.Services.AddHealthChecks()
     .AddNpgSql(connStr!);
@@ -31,6 +83,16 @@ var app = builder.Build();
 
 // 配置 Serilog 請求日誌
 app.UseSerilogRequestLogging();
+
+// 配置 CORS
+app.UseCors("AllowAll");
+
+// 配置認證和授權
+app.UseAuthentication();
+app.UseAuthorization();
+
+// 配置路由
+app.MapControllers();
 
 // 健康檢查端點
 app.MapHealthChecks("/healthz");

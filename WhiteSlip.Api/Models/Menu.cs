@@ -1,26 +1,17 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WhiteSlip.Api.Models;
 
 public class Menu
 {
     [Key]
-    [MaxLength(50)]
-    public string Sku { get; set; } = string.Empty;
+    public int Id { get; set; }
     
     [Required]
-    [MaxLength(200)]
-    public string Name { get; set; } = string.Empty;
+    public int Version { get; set; }
     
     [Required]
-    [Column(TypeName = "decimal(10,2)")]
-    public decimal Price { get; set; }
+    public string MenuData { get; set; } = string.Empty;
     
-    [MaxLength(100)]
-    public string? Category { get; set; }
-    
-    public int Version { get; set; } = 1;
-    
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 } 

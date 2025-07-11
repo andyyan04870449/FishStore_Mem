@@ -107,3 +107,12 @@
 /Users/user/FishStore_Mem/WhiteSlip.Api/obj/Debug/net8.0/WhiteSlip.Api.pdb
 /Users/user/FishStore_Mem/WhiteSlip.Api/obj/Debug/net8.0/WhiteSlip.Api.genruntimeconfig.cache
 /Users/user/FishStore_Mem/WhiteSlip.Api/obj/Debug/net8.0/ref/WhiteSlip.Api.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/obj/Debug/net8.0/WhiteSlip.Api.sourcelink.json
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
