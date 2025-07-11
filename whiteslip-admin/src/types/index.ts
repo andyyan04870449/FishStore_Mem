@@ -1,0 +1,86 @@
+// API 回應類型
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  message?: string;
+  error?: string;
+}
+
+// 登入請求類型
+export interface LoginRequest {
+  account: string;
+  password: string;
+}
+
+// 登入回應類型
+export interface LoginResponse {
+  success: boolean;
+  token: string;
+  role: string;
+  expiresAt: string;
+  message: string;
+}
+
+// 菜單類型
+export interface MenuItem {
+  sku: string;
+  name: string;
+  price: number;
+}
+
+export interface MenuCategory {
+  name: string;
+  items: MenuItem[];
+}
+
+export interface Menu {
+  version: number;
+  lastUpdated: string;
+  menu: {
+    categories: MenuCategory[];
+  };
+}
+
+// 訂單類型
+export interface OrderItem {
+  sku: string;
+  name: string;
+  qty: number;
+  unitPrice: number;
+  subtotal: number;
+}
+
+export interface Order {
+  id: string;
+  orderId: string;
+  businessDay: string;
+  total: number;
+  createdAt: string;
+  items: OrderItem[];
+}
+
+// 使用者類型
+export interface User {
+  id: string;
+  account: string;
+  role: 'Admin' | 'Manager' | 'Staff';
+  name?: string;
+  createdAt?: string;
+  lastLoginAt?: string;
+}
+
+// 報表類型
+export interface ReportData {
+  date: string;
+  revenue: number;
+  orders: number;
+  averageOrderValue: number;
+}
+
+// 路由類型
+export interface RouteConfig {
+  path: string;
+  element: React.ComponentType;
+  requiresAuth?: boolean;
+  requiredRole?: string[];
+} 
