@@ -6,6 +6,7 @@ using System.Text;
 using WhiteSlip.Api.Data;
 using WhiteSlip.Api.Models;
 using WhiteSlip.Api.Services;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,10 @@ builder.Services.AddAuthorization();
 // 配置服務
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+// 配置 Prometheus metrics
+builder.Services.AddHealthChecks()
+    .AddNpgSql(connStr!);
+
 // 配置控制器
 builder.Services.AddControllers();
 
@@ -75,10 +80,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-// 配置健康檢查
-builder.Services.AddHealthChecks()
-    .AddNpgSql(connStr!);
-
 var app = builder.Build();
 
 // 配置 Serilog 請求日誌
@@ -86,6 +87,10 @@ app.UseSerilogRequestLogging();
 
 // 配置 CORS
 app.UseCors("AllowAll");
+
+// Prometheus metrics
+app.UseHttpMetrics();
+app.MapMetrics("/metrics");
 
 // 配置認證和授權
 app.UseAuthentication();

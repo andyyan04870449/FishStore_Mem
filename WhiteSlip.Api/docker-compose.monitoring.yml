@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 資料庫
+  postgres:
+    image: postgres:15-alpine
+    container_name: whiteslip-postgres
+    environment:
+      POSTGRES_DB: wsl
+      POSTGRES_USER: white
+      POSTGRES_PASSWORD: slip
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backup-script.sh:/backup-script.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U white -d wsl"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # WhiteSlip API
+  api:
+    build: .
+    container_name: whiteslip-api
+    environment:
+      - DB_CONN=Host=postgres;Port=5432;Username=white;Password=slip;Database=wsl
+      - JWT_SECRET=CHANGE_ME_32_BYTE_SECRET_KEY_HERE
+      - JWT_ISSUER=white-slip-api
+      - JWT_AUDIENCE=white-slip-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Prometheus 監控
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: whiteslip-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+
+  # Grafana 儀表板
+  grafana:
+    image: grafana/grafana:latest
+    container_name: whiteslip-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+
+volumes:
+  postgres_data:
+  prometheus_data:
+  grafana_data: 

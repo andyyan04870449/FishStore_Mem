@@ -36,19 +36,20 @@
 
 ## 2025-07-12
 
-### 已完成事項（第三階段）
-- 實作 RBAC 權限驗證，JWT 內含角色資訊，API 端點支援 [Authorize(Roles=...)]
-- 新增 User 登入 API，支援帳號密碼登入，JWT 依角色分級
-- 新增 ReportsController，支援日期區間查詢、營業數據彙整、CSV 匯出（限 Manager 以上）
-- 新增 UsersController，僅限 Admin 可查詢、建立、修改、刪除使用者
+### 已完成事項（第四階段）
+- 整合 Prometheus 監控系統，提供 /metrics 端點供監控抓取
+- 強化 Serilog 結構化日誌，支援檔案輸出、錯誤追蹤、日誌輪替
+- 建立資料庫備份腳本，支援 PostgreSQL 自動備份、S3 上傳、舊檔清理
+- 提供 docker-compose.monitoring.yml，整合 Prometheus、Grafana、PostgreSQL
+- 建立 Prometheus 配置檔，設定 metrics 抓取規則
 - 所有程式碼已通過建置，無語法錯誤
 
 ### 尚待處理
-- 尚未進行 API 實測
-- 尚未進行第三階段 migration（如有必要）
+- 尚未進行監控系統實測
+- 尚未進行備份腳本測試
 
 ### 下一步
-- 進行 API 功能測試
-- 進入第四階段「監控與維運」開發
+- 進行監控系統與備份功能測試
+- 進入第五階段「測試與部署」開發
 
 --- 
