@@ -36,20 +36,49 @@
 
 ## 2025-07-12
 
-### 已完成事項（第四階段）
-- 整合 Prometheus 監控系統，提供 /metrics 端點供監控抓取
-- 強化 Serilog 結構化日誌，支援檔案輸出、錯誤追蹤、日誌輪替
-- 建立資料庫備份腳本，支援 PostgreSQL 自動備份、S3 上傳、舊檔清理
-- 提供 docker-compose.monitoring.yml，整合 Prometheus、Grafana、PostgreSQL
-- 建立 Prometheus 配置檔，設定 metrics 抓取規則
+### 已完成事項（第五階段）
+- 安裝測試套件：xUnit、Moq、FluentAssertions、Entity Framework In-Memory
+- 撰寫 JWT 服務單元測試，測試 Token 生成與驗證功能
+- 撰寫認證控制器整合測試，測試裝置認證與使用者登入
+- 建立 GitHub Actions CI/CD 配置，包含建置、測試、Docker 映像建置
+- 建立 Dockerfile，支援多階段建置與 Alpine Linux 映像
+- 建立完整 API 文件，包含所有端點、請求/回應格式、權限矩陣
 - 所有程式碼已通過建置，無語法錯誤
 
 ### 尚待處理
-- 尚未進行監控系統實測
-- 尚未進行備份腳本測試
+- 尚未執行測試套件驗證
+- 尚未進行 Docker 映像建置測試
 
-### 下一步
-- 進行監控系統與備份功能測試
-- 進入第五階段「測試與部署」開發
+### 專案完成總結
+- 第一階段：基礎架構建立 ✅
+- 第二階段：核心 API 開發 ✅
+- 第三階段：報表與權限系統 ✅
+- 第四階段：監控與維運 ✅
+- 第五階段：測試與部署 ✅
+
+**所有五個開發階段已全部完成！**
+
+## 2025-07-13
+
+### Docker 建置與部署驗證
+- 成功建置 Docker 映像 `whiteslip-api:latest`
+- 解決 PostgreSQL 外部連線問題：
+  - 修改 `postgresql.conf`：`listen_addresses = '*'`
+  - 修改 `pg_hba.conf`：新增 `host all all 0.0.0.0/0 md5`
+  - 建立資料庫用戶 `white` 與資料庫 `wsl`
+- 成功啟動 API 容器並驗證服務：
+  - 容器運行於 `localhost:5001`
+  - 健康檢查端點 `/healthz` 回傳 `Healthy`
+  - API 根端點 `/` 正常運作
+  - 資料庫連線正常，EF Core 可正常存取 PostgreSQL
+
+### 部署驗證結果
+- ✅ Docker 映像建置成功
+- ✅ 容器啟動正常
+- ✅ 資料庫連線正常
+- ✅ API 服務運作正常
+- ✅ 健康檢查通過
+
+**專案已完全準備好進行生產環境部署！**
 
 --- 

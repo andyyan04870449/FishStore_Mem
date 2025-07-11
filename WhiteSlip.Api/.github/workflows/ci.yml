@@ -1,0 +1,75 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore WhiteSlip.Api/WhiteSlip.Api.csproj
+    
+    - name: Build
+      run: dotnet build WhiteSlip.Api/WhiteSlip.Api.csproj --no-restore
+    
+    - name: Test
+      run: dotnet test WhiteSlip.Api/WhiteSlip.Api.csproj --no-build --verbosity normal --collect:"XPlat Code Coverage"
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: WhiteSlip.Api/TestResults/coverage.cobertura.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  docker-build:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./WhiteSlip.Api
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/whiteslip-api:latest
+          ${{ secrets.DOCKER_USERNAME }}/whiteslip-api:${{ github.sha }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy:
+    needs: docker-build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production..."
+        # 這裡可以加入實際的部署腳本
+        # 例如：kubectl apply, docker-compose up, 等等 
