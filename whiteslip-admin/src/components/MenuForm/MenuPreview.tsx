@@ -10,9 +10,6 @@ const MenuPreview: React.FC<MenuPreviewProps> = ({ categories }) => {
   // 統計資訊
   const totalCategories = categories.length;
   const totalItems = categories.reduce((total, category) => total + category.items.length, 0);
-  const totalValue = categories.reduce((total, category) => 
-    total + category.items.reduce((sum, item) => sum + item.price, 0), 0
-  );
 
   // 檢查是否有有效資料
   const hasValidData = categories.some(category => 
@@ -48,14 +45,6 @@ const MenuPreview: React.FC<MenuPreviewProps> = ({ categories }) => {
               {totalItems}
             </div>
             <div style={{ fontSize: '12px', color: '#666' }}>項目總數</div>
-          </div>
-        </Card>
-        <Card size="small" style={{ flex: 1 }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fa8c16' }}>
-              ${totalValue.toFixed(2)}
-            </div>
-            <div style={{ fontSize: '12px', color: '#666' }}>總價值</div>
           </div>
         </Card>
       </div>

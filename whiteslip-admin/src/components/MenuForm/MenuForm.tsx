@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Form, Input, InputNumber, Button, Space, Card, message, Spin, Alert } from 'antd';
+import { Form, Input, Button, Space, Card, message, Spin, Alert } from 'antd';
 import { PlusOutlined, SaveOutlined } from '@ant-design/icons';
 import { MenuCategory } from '../../types';
 import { api } from '../../services/api';
@@ -61,10 +61,17 @@ const MenuForm: React.FC<MenuFormProps> = ({
   // 監聽預填菜單資料事件
   useEffect(() => {
     const handlePrefillMenu = (event: CustomEvent) => {
-      console.log('收到預填事件:', event.detail);
       const { version, description, categories } = event.detail;
-      form.setFieldsValue({ version, description });
-      setCategories(categories);
+      
+      // 立即設定表單值
+      form.setFieldsValue({ 
+        version: version,
+        description: description || ''
+      });
+      
+      // 設定分類資料
+      setCategories(categories || []);
+      
     };
 
     document.addEventListener('prefill-menu-form', handlePrefillMenu as EventListener);
@@ -114,26 +121,27 @@ const MenuForm: React.FC<MenuFormProps> = ({
         {/* 基本資訊 */}
         <Card title="基本資訊" style={{ marginBottom: 16 }}>
           <Form.Item
-            name="version"
             label="版本號"
-            rules={[{ required: true, message: '請輸入版本號' }]}
+            style={{ marginBottom: 0 }}
           >
-            <InputNumber
-              min={1}
-              style={{ width: '100%' }}
-              disabled={versionLoading}
-              addonAfter={
-                versionLoading ? (
-                  <Spin size="small" />
-                ) : (
-                  latestVersion > 0 && (
-                    <span style={{ fontSize: '12px', color: '#666' }}>
-                      當前最新版本: {latestVersion}
-                    </span>
-                  )
+            <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
+              <Form.Item name="version" noStyle>
+                {/* 隱藏 input，送出時仍帶 version */}
+                <input type="hidden" />
+              </Form.Item>
+              <span data-testid="menu-version">
+                {form.getFieldValue('version')}
+              </span>
+              {versionLoading ? (
+                <Spin size="small" style={{ marginLeft: 8 }} />
+              ) : (
+                latestVersion > 0 && (
+                  <span style={{ fontSize: '12px', color: '#666', marginLeft: 8 }}>
+                    當前最新版本: {latestVersion}
+                  </span>
                 )
-              }
-            />
+              )}
+            </span>
           </Form.Item>
 
           <Form.Item

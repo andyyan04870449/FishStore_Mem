@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import { API_BASE_URL } from '../constants';
 
 // API 請求配置

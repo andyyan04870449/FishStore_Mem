@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, Modal, Form, Input, DatePicker, message, Card, Tag, Statistic, Row, Col } from 'antd';
+import { Table, Button, Space, Modal, Form, Input, DatePicker, message, Card, Statistic, Row, Col } from 'antd';
 import { SearchOutlined, EyeOutlined, DownloadOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Order, OrderItem } from '../types';
+import { Order } from '../types';
 import { api } from '../services/api';
 import { API_ENDPOINTS, API_BASE_URL } from '../constants';
 import dayjs from 'dayjs';

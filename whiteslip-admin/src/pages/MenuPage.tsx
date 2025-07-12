@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, Modal, message, Card, Tag, Alert } from 'antd';
+import { Table, Button, Space, Modal, message, Card, Alert } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { Menu } from '../types';
 import { api } from '../services/api';
@@ -200,12 +200,16 @@ const MenuPage: React.FC = () => {
         description: '',
         categories: JSON.parse(JSON.stringify(latestMenu.menu.categories))
       };
+      
       setEditingMenu(null);
       setModalVisible(true);
-      // 立即發送預填事件
-      document.dispatchEvent(new CustomEvent('prefill-menu-form', {
-        detail: prefillData
-      }));
+      
+      // 延遲發送預填事件，確保 Modal 和 MenuForm 已經渲染
+      setTimeout(() => {
+        document.dispatchEvent(new CustomEvent('prefill-menu-form', {
+          detail: prefillData
+        }));
+      }, 100);
     } else {
       setEditingMenu(null);
       setModalVisible(true);
