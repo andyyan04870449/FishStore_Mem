@@ -56,7 +56,13 @@ public class DeviceInfo
 {
     public Guid DeviceId { get; set; }
     public string DeviceCode { get; set; } = string.Empty;
+    public string? DeviceName { get; set; }
     public DateTime LastSeen { get; set; }
+    public DeviceStatus Status { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? ActivatedAt { get; set; }
+    public DateTime? DisabledAt { get; set; }
+    public DateTime? DeletedAt { get; set; }
     public bool IsActive { get; set; }
 }
 

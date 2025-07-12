@@ -160,13 +160,16 @@ public class AuthController : ControllerBase
             _logger.LogInformation("生成授權碼請求: {DeviceName}", request.DeviceName);
 
             // 生成唯一的授權碼
-            var authCode = await GenerateUniqueAuthCodeAsync();
+            var authCode = GenerateUniqueAuthCode();
             
             // 創建設備記錄
             var device = new Device
             {
                 DeviceCode = authCode,
-                LastSeen = DateTime.UtcNow
+                DeviceName = request.DeviceName,
+                Status = DeviceStatus.Inactive,
+                LastSeen = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow
             };
             
             _context.Devices.Add(device);
@@ -196,17 +199,30 @@ public class AuthController : ControllerBase
     // 新增：獲取裝置列表
     [HttpGet("devices")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<DeviceListResponse>> GetDevices()
+    public async Task<ActionResult<DeviceListResponse>> GetDevices([FromQuery] bool includeDeleted = false)
     {
         try
         {
-            var devices = await _context.Devices
+            var query = _context.Devices.AsQueryable();
+            
+            if (!includeDeleted)
+            {
+                query = query.Where(d => d.Status != DeviceStatus.Deleted);
+            }
+            
+            var devices = await query
                 .OrderByDescending(d => d.LastSeen)
                 .Select(d => new DeviceInfo
                 {
                     DeviceId = d.DeviceId,
                     DeviceCode = d.DeviceCode,
+                    DeviceName = d.DeviceName,
                     LastSeen = d.LastSeen,
+                    Status = d.Status,
+                    CreatedAt = d.CreatedAt,
+                    ActivatedAt = d.ActivatedAt,
+                    DisabledAt = d.DisabledAt,
+                    DeletedAt = d.DeletedAt,
                     IsActive = d.LastSeen > DateTime.UtcNow.AddHours(-24) // 24小時內有活動視為活躍
                 })
                 .ToListAsync();
@@ -229,6 +245,87 @@ public class AuthController : ControllerBase
         }
     }
 
+    // 新增：停用裝置
+    [HttpPut("devices/{deviceId}/disable")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<BaseResponse>> DisableDevice(Guid deviceId)
+    {
+        try
+        {
+            var device = await _context.Devices.FindAsync(deviceId);
+            if (device == null)
+            {
+                return NotFound(new BaseResponse
+                {
+                    Success = false,
+                    Message = "裝置不存在"
+                });
+            }
+
+            device.Status = DeviceStatus.Disabled;
+            device.DisabledAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("成功停用裝置: {DeviceCode}", device.DeviceCode);
+
+            return Ok(new BaseResponse
+            {
+                Success = true,
+                Message = "裝置停用成功"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "停用裝置時發生錯誤: {DeviceId}", deviceId);
+            return StatusCode(500, new BaseResponse
+            {
+                Success = false,
+                Message = "停用裝置失敗"
+            });
+        }
+    }
+
+    // 新增：啟用裝置
+    [HttpPut("devices/{deviceId}/enable")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<BaseResponse>> EnableDevice(Guid deviceId)
+    {
+        try
+        {
+            var device = await _context.Devices.FindAsync(deviceId);
+            if (device == null)
+            {
+                return NotFound(new BaseResponse
+                {
+                    Success = false,
+                    Message = "裝置不存在"
+                });
+            }
+
+            device.Status = DeviceStatus.Active;
+            device.ActivatedAt = DateTime.UtcNow;
+            device.DisabledAt = null;
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("成功啟用裝置: {DeviceCode}", device.DeviceCode);
+
+            return Ok(new BaseResponse
+            {
+                Success = true,
+                Message = "裝置啟用成功"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "啟用裝置時發生錯誤: {DeviceId}", deviceId);
+            return StatusCode(500, new BaseResponse
+            {
+                Success = false,
+                Message = "啟用裝置失敗"
+            });
+        }
+    }
+
     // 新增：刪除裝置
     [HttpDelete("devices/{deviceId}")]
     [Authorize(Roles = "Admin")]
@@ -246,7 +343,8 @@ public class AuthController : ControllerBase
                 });
             }
 
-            _context.Devices.Remove(device);
+            device.Status = DeviceStatus.Deleted;
+            device.DeletedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
             _logger.LogInformation("成功刪除裝置: {DeviceCode}", device.DeviceCode);
@@ -269,7 +367,7 @@ public class AuthController : ControllerBase
     }
 
     // 私有方法：生成唯一授權碼
-    private async Task<string> GenerateUniqueAuthCodeAsync()
+    private string GenerateUniqueAuthCode()
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         var random = new Random();
@@ -279,7 +377,7 @@ public class AuthController : ControllerBase
         {
             authCode = new string(Enumerable.Repeat(chars, 8)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
-        } while (await _context.Devices.AnyAsync(d => d.DeviceCode == authCode));
+        } while (_context.Devices.Any(d => d.DeviceCode == authCode));
 
         return authCode;
     }
