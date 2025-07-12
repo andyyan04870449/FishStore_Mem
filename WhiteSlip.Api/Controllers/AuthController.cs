@@ -160,7 +160,7 @@ public class AuthController : ControllerBase
             _logger.LogInformation("生成授權碼請求: {DeviceName}", request.DeviceName);
 
             // 生成唯一的授權碼
-            var authCode = GenerateUniqueAuthCode();
+            var authCode = await GenerateUniqueAuthCodeAsync();
             
             // 創建設備記錄
             var device = new Device
@@ -269,7 +269,7 @@ public class AuthController : ControllerBase
     }
 
     // 私有方法：生成唯一授權碼
-    private string GenerateUniqueAuthCode()
+    private async Task<string> GenerateUniqueAuthCodeAsync()
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         var random = new Random();
@@ -279,7 +279,7 @@ public class AuthController : ControllerBase
         {
             authCode = new string(Enumerable.Repeat(chars, 8)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
-        } while (_context.Devices.Any(d => d.DeviceCode == authCode));
+        } while (await _context.Devices.AnyAsync(d => d.DeviceCode == authCode));
 
         return authCode;
     }

@@ -104,4 +104,11 @@ app.MapHealthChecks("/healthz");
 
 app.MapGet("/", () => "WhiteSlip API v1.0");
 
+// 初始化資料庫
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<WhiteSlipDbContext>();
+    await DbInitializer.Initialize(context);
+}
+
 app.Run();
