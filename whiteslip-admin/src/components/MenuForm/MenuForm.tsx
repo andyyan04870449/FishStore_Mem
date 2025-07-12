@@ -39,25 +39,40 @@ const MenuForm: React.FC<MenuFormProps> = ({
       const nextVersion = response.version + 1;
       setLatestVersion(response.version);
       
-      // 如果是新增菜單，自動設定版本號
-      if (!initialData?.version) {
+      // 只有在沒有 initialData 且沒有預填資料時才自動設定版本號
+      if (!initialData?.version && categories.length === 0) {
         form.setFieldsValue({ version: nextVersion });
       }
     } catch (error: any) {
       console.error('取得最新版本號失敗:', error);
       // 如果無法取得版本號，預設為 1
-      if (!initialData?.version) {
+      if (!initialData?.version && categories.length === 0) {
         form.setFieldsValue({ version: 1 });
       }
     } finally {
       setVersionLoading(false);
     }
-  }, [initialData?.version, form]);
+  }, [initialData?.version, form, categories.length]);
 
   useEffect(() => {
     fetchLatestVersion();
   }, [fetchLatestVersion]);
 
+  // 監聽預填菜單資料事件
+  useEffect(() => {
+    const handlePrefillMenu = (event: CustomEvent) => {
+      console.log('收到預填事件:', event.detail);
+      const { version, description, categories } = event.detail;
+      form.setFieldsValue({ version, description });
+      setCategories(categories);
+    };
+
+    document.addEventListener('prefill-menu-form', handlePrefillMenu as EventListener);
+    
+    return () => {
+      document.removeEventListener('prefill-menu-form', handlePrefillMenu as EventListener);
+    };
+  }, [form]);
 
 
   // 處理表單提交

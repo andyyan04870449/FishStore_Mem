@@ -192,8 +192,24 @@ const MenuPage: React.FC = () => {
 
   // 新增菜單
   const handleAdd = () => {
-    setEditingMenu(null);
-    setModalVisible(true);
+    if (menus.length > 0) {
+      const latestMenu = menus[menus.length - 1];
+      // 複製最新菜單內容，version +1，description 清空
+      const prefillData = {
+        version: latestMenu.version + 1,
+        description: '',
+        categories: JSON.parse(JSON.stringify(latestMenu.menu.categories))
+      };
+      setEditingMenu(null);
+      setModalVisible(true);
+      // 立即發送預填事件
+      document.dispatchEvent(new CustomEvent('prefill-menu-form', {
+        detail: prefillData
+      }));
+    } else {
+      setEditingMenu(null);
+      setModalVisible(true);
+    }
   };
 
   // 關閉模態框
