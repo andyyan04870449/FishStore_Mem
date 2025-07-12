@@ -165,7 +165,6 @@ const MenuPage: React.FC = () => {
                 <Table
                   dataSource={category.items}
                   columns={[
-                    { title: 'SKU', dataIndex: 'sku', key: 'sku' },
                     { title: '名稱', dataIndex: 'name', key: 'name' },
                     { 
                       title: '價格', 

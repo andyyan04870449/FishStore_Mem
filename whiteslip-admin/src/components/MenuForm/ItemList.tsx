@@ -12,7 +12,6 @@ const ItemList: React.FC<ItemListProps> = ({ items, onChange }) => {
   // 新增項目
   const addItem = () => {
     const newItem: MenuItem = {
-      sku: '',
       name: '',
       price: 0
     };
@@ -32,30 +31,8 @@ const ItemList: React.FC<ItemListProps> = ({ items, onChange }) => {
     onChange(newItems);
   };
 
-  // 檢查 SKU 重複
-  const checkDuplicateSku = (sku: string, currentIndex: number) => {
-    return items.some((item, index) => index !== currentIndex && item.sku === sku);
-  };
-
   // 表格欄位定義
   const columns = [
-    {
-      title: 'SKU',
-      dataIndex: 'sku',
-      key: 'sku',
-      width: 120,
-      render: (value: string, record: MenuItem, index: number) => (
-        <Input
-          value={value}
-          onChange={(e) => {
-            const newValue = e.target.value.toUpperCase();
-            updateItem(index, 'sku', newValue);
-          }}
-          placeholder="SKU"
-          status={checkDuplicateSku(value, index) ? 'error' : undefined}
-        />
-      )
-    },
     {
       title: '名稱',
       dataIndex: 'name',

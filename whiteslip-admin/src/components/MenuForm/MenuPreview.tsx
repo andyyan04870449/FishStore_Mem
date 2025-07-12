@@ -17,7 +17,7 @@ const MenuPreview: React.FC<MenuPreviewProps> = ({ categories }) => {
   // 檢查是否有有效資料
   const hasValidData = categories.some(category => 
     category.name.trim() && category.items.some(item => 
-      item.sku.trim() && item.name.trim() && item.price > 0
+      item.name.trim() && item.price > 0
     )
   );
 
@@ -63,7 +63,7 @@ const MenuPreview: React.FC<MenuPreviewProps> = ({ categories }) => {
       {/* 菜單預覽 */}
       {categories.map((category, categoryIndex) => {
         const validItems = category.items.filter(item => 
-          item.sku.trim() && item.name.trim() && item.price > 0
+          item.name.trim() && item.price > 0
         );
 
         if (!category.name.trim() || validItems.length === 0) {
@@ -85,15 +85,6 @@ const MenuPreview: React.FC<MenuPreviewProps> = ({ categories }) => {
             <Table
               dataSource={validItems}
               columns={[
-                {
-                  title: 'SKU',
-                  dataIndex: 'sku',
-                  key: 'sku',
-                  width: 100,
-                  render: (sku: string) => (
-                    <Tag color="green">{sku}</Tag>
-                  )
-                },
                 {
                   title: '名稱',
                   dataIndex: 'name',

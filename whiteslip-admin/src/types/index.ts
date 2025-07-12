@@ -23,7 +23,6 @@ export interface LoginResponse {
 
 // 菜單類型
 export interface MenuItem {
-  sku: string;
   name: string;
   price: number;
 }
@@ -44,7 +43,6 @@ export interface Menu {
 
 // 訂單類型
 export interface OrderItem {
-  sku: string;
   name: string;
   qty: number;
   unitPrice: number;

@@ -101,7 +101,6 @@ const OrdersPage: React.FC = () => {
             <Table
               dataSource={order.items}
               columns={[
-                { title: 'SKU', dataIndex: 'sku', key: 'sku', width: 100 },
                 { title: '商品名稱', dataIndex: 'name', key: 'name' },
                 { title: '數量', dataIndex: 'qty', key: 'qty', width: 80 },
                 { 
@@ -123,7 +122,7 @@ const OrdersPage: React.FC = () => {
               size="small"
               summary={() => (
                 <Table.Summary.Row>
-                  <Table.Summary.Cell index={0} colSpan={4}>
+                  <Table.Summary.Cell index={0} colSpan={3}>
                     <strong>總計</strong>
                   </Table.Summary.Cell>
                   <Table.Summary.Cell index={1}>
