@@ -209,3 +209,4 @@
 /Users/user/FishStore_Mem/WhiteSlip.Api/obj/Debug/net8.0/WhiteSlip.Api.pdb
 /Users/user/FishStore_Mem/WhiteSlip.Api/obj/Debug/net8.0/WhiteSlip.Api.genruntimeconfig.cache
 /Users/user/FishStore_Mem/WhiteSlip.Api/obj/Debug/net8.0/ref/WhiteSlip.Api.dll
+/Users/user/FishStore_Mem/WhiteSlip.Api/bin/Debug/net8.0/test-results/.last-run.json
