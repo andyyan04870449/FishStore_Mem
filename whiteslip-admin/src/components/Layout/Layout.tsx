@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 import { logout } from '../../store/slices/authSlice';
 import { ROUTES } from '../../constants';
+import { hasPermission } from '../../utils/permission';
 
 const { Header, Sider, Content } = AntLayout;
 
@@ -36,6 +37,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     </Menu>
   );
 
+  const role = user?.role;
   const menuItems = [
     {
       key: ROUTES.DASHBOARD,
@@ -55,24 +57,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       label: '訂單管理',
       onClick: () => navigate(ROUTES.ORDERS),
     },
-    {
+    ...(role && hasPermission(role, 'Manager') ? [{
       key: ROUTES.REPORTS,
       icon: <UserOutlined />,
       label: '報表分析',
       onClick: () => navigate(ROUTES.REPORTS),
-    },
-    {
+    }] : []),
+    ...(role === 'Admin' ? [{
       key: ROUTES.USERS,
       icon: <UserOutlined />,
       label: '使用者管理',
       onClick: () => navigate(ROUTES.USERS),
-    },
-    {
+    }] : []),
+    ...(role === 'Admin' ? [{
       key: ROUTES.SETTINGS,
       icon: <UserOutlined />,
       label: '系統設定',
       onClick: () => navigate(ROUTES.SETTINGS),
-    },
+    }] : []),
   ];
 
   return (

@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, Modal, Form, Input, InputNumber, message, Card, Tag } from 'antd';
+import { Table, Button, Space, Modal, message, Card, Tag, Alert } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { Menu, MenuItem, MenuCategory } from '../types';
+import { Menu } from '../types';
 import { api } from '../services/api';
 import { API_ENDPOINTS } from '../constants';
-
-const { TextArea } = Input;
+import { MenuForm } from '../components/MenuForm';
 
 const MenuPage: React.FC = () => {
   const [menus, setMenus] = useState<Menu[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingMenu, setEditingMenu] = useState<Menu | null>(null);
-  const [form] = Form.useForm();
+  const [noMenu, setNoMenu] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   // 取得菜單列表
   const fetchMenus = async () => {
     try {
       setLoading(true);
+      setNoMenu(false);
       const response = await api.get<Menu[]>(API_ENDPOINTS.MENU);
       setMenus(response);
-    } catch (error) {
-      message.error('取得菜單失敗');
+    } catch (error: any) {
+      // 檢查 404 狀態
+      if (error.message && (error.message.includes('404') || error.message.includes('菜單不存在'))) {
+        setNoMenu(true);
+        setMenus([]);
+      } else {
+        message.error('取得菜單失敗');
+      }
     } finally {
       setLoading(false);
     }
@@ -34,6 +41,7 @@ const MenuPage: React.FC = () => {
   // 處理表單提交
   const handleSubmit = async (values: any) => {
     try {
+      setSubmitLoading(true);
       if (editingMenu) {
         await api.put(`${API_ENDPOINTS.MENU}/${editingMenu.id}`, values);
         message.success('菜單更新成功');
@@ -42,10 +50,11 @@ const MenuPage: React.FC = () => {
         message.success('菜單新增成功');
       }
       setModalVisible(false);
-      form.resetFields();
       fetchMenus();
-    } catch (error) {
-      message.error('操作失敗');
+    } catch (error: any) {
+      message.error(error.message || '操作失敗');
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -167,18 +176,19 @@ const MenuPage: React.FC = () => {
   // 編輯菜單
   const handleEdit = (menu: Menu) => {
     setEditingMenu(menu);
-    form.setFieldsValue({
-      version: menu.version,
-      categories: menu.menu.categories,
-    });
     setModalVisible(true);
   };
 
   // 新增菜單
   const handleAdd = () => {
     setEditingMenu(null);
-    form.resetFields();
     setModalVisible(true);
+  };
+
+  // 關閉模態框
+  const handleCancel = () => {
+    setModalVisible(false);
+    setEditingMenu(null);
   };
 
   return (
@@ -194,56 +204,46 @@ const MenuPage: React.FC = () => {
         </Button>
       </div>
 
-      <Table
-        columns={columns}
-        dataSource={menus}
-        loading={loading}
-        rowKey="id"
-        pagination={{
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: (total) => `共 ${total} 筆資料`,
-        }}
-      />
+      {noMenu ? (
+        <Alert
+          message="尚未建立菜單"
+          description="目前尚無任何菜單資料，請點擊右上方「新增菜單」建立第一份菜單。"
+          type="info"
+          showIcon
+          style={{ marginBottom: 24 }}
+        />
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={menus}
+          loading={loading}
+          rowKey="id"
+          pagination={{
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total) => `共 ${total} 筆資料`,
+          }}
+        />
+      )}
 
       <Modal
         title={editingMenu ? '編輯菜單' : '新增菜單'}
         open={modalVisible}
-        onCancel={() => setModalVisible(false)}
+        onCancel={handleCancel}
         footer={null}
-        width={800}
+        width={1000}
+        destroyOnClose
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleSubmit}
-        >
-          <Form.Item
-            name="version"
-            label="版本號"
-            rules={[{ required: true, message: '請輸入版本號' }]}
-          >
-            <InputNumber min={1} style={{ width: '100%' }} />
-          </Form.Item>
-
-          <Form.Item
-            name="description"
-            label="描述"
-          >
-            <TextArea rows={3} />
-          </Form.Item>
-
-          <Form.Item>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                {editingMenu ? '更新' : '新增'}
-              </Button>
-              <Button onClick={() => setModalVisible(false)}>
-                取消
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+        <MenuForm
+          initialData={editingMenu ? {
+            version: editingMenu.version,
+            description: '',
+            categories: editingMenu.menu.categories
+          } : undefined}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          loading={submitLoading}
+        />
       </Modal>
     </div>
   );

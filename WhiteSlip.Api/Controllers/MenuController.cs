@@ -20,6 +20,36 @@ public class MenuController : ControllerBase
         _logger = logger;
     }
 
+    [HttpGet("latest-version")]
+    public async Task<ActionResult<object>> GetLatestVersion()
+    {
+        try
+        {
+            var deviceId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            _logger.LogInformation("取得最新版本號請求: DeviceId={DeviceId}", deviceId);
+
+            var latestMenu = await _context.Menus
+                .OrderByDescending(m => m.Version)
+                .FirstOrDefaultAsync();
+
+            if (latestMenu == null)
+            {
+                return Ok(new { version = 0, lastUpdated = (DateTime?)null });
+            }
+
+            return Ok(new
+            {
+                version = latestMenu.Version,
+                lastUpdated = latestMenu.LastUpdated
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "取得最新版本號時發生錯誤");
+            return StatusCode(500, new { message = "服務暫時不可用" });
+        }
+    }
+
     [HttpGet]
     public async Task<ActionResult<object>> GetMenu([FromQuery] int? version)
     {
@@ -63,45 +93,98 @@ public class MenuController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<object>> UpdateMenu([FromBody] object menuData)
+    public async Task<ActionResult<object>> UpdateMenu([FromBody] CreateMenuRequest request)
     {
         try
         {
             var deviceId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            _logger.LogInformation("菜單更新請求: DeviceId={DeviceId}", deviceId);
+            _logger.LogInformation("菜單建立請求: DeviceId={DeviceId}, Version={Version}", deviceId, request.Version);
 
-            // 獲取當前最新版本
-            var currentVersion = await _context.Menus
-                .OrderByDescending(m => m.Version)
-                .Select(m => m.Version)
-                .FirstOrDefaultAsync();
+            // 驗證輸入
+            if (request.Categories == null || !request.Categories.Any())
+            {
+                return BadRequest(new { message = "至少需要一個分類" });
+            }
 
-            var newVersion = currentVersion + 1;
+            // 檢查 SKU 重複
+            var allSkus = request.Categories
+                .SelectMany(c => c.Items)
+                .Select(i => i.Sku)
+                .ToList();
+            
+            var duplicateSkus = allSkus
+                .GroupBy(sku => sku)
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key)
+                .ToList();
 
-            // 創建新菜單版本
+            if (duplicateSkus.Any())
+            {
+                return BadRequest(new { 
+                    message = $"SKU 重複: {string.Join(", ", duplicateSkus)}" 
+                });
+            }
+
+            // 驗證必填欄位
+            foreach (var category in request.Categories)
+            {
+                if (string.IsNullOrWhiteSpace(category.Name))
+                {
+                    return BadRequest(new { message = "分類名稱不能為空" });
+                }
+
+                foreach (var item in category.Items)
+                {
+                    if (string.IsNullOrWhiteSpace(item.Sku))
+                    {
+                        return BadRequest(new { message = "SKU 不能為空" });
+                    }
+                    if (string.IsNullOrWhiteSpace(item.Name))
+                    {
+                        return BadRequest(new { message = "項目名稱不能為空" });
+                    }
+                    if (item.Price <= 0)
+                    {
+                        return BadRequest(new { message = "價格必須大於 0" });
+                    }
+                }
+            }
+
+            // 建立新菜單版本
+            var newVersion = await GetNextVersion();
             var newMenu = new Menu
             {
                 Version = newVersion,
-                MenuData = System.Text.Json.JsonSerializer.Serialize(menuData),
+                MenuData = System.Text.Json.JsonSerializer.Serialize(new { categories = request.Categories }),
                 LastUpdated = DateTime.UtcNow
             };
 
             _context.Menus.Add(newMenu);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("菜單已更新至版本 {Version}", newVersion);
+            _logger.LogInformation("菜單已建立至版本 {Version}", newVersion);
 
             return Ok(new
             {
                 version = newVersion,
                 lastUpdated = newMenu.LastUpdated,
-                message = "菜單更新成功"
+                message = "菜單建立成功"
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "菜單更新過程中發生錯誤");
-            return StatusCode(500, new { message = "菜單更新失敗" });
+            _logger.LogError(ex, "菜單建立過程中發生錯誤");
+            return StatusCode(500, new { message = "菜單建立失敗" });
         }
+    }
+
+    private async Task<int> GetNextVersion()
+    {
+        var currentVersion = await _context.Menus
+            .OrderByDescending(m => m.Version)
+            .Select(m => m.Version)
+            .FirstOrDefaultAsync();
+        
+        return currentVersion + 1;
     }
 } 

@@ -5,6 +5,7 @@ export const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5
 export const API_ENDPOINTS = {
   LOGIN: '/api/v1/auth/user-login',
   MENU: '/api/v1/menu',
+  MENU_LATEST_VERSION: '/api/v1/menu/latest-version',
   ORDERS: '/api/v1/orders',
   REPORTS: '/api/v1/reports',
   USERS: '/api/v1/users',

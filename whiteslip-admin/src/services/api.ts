@@ -31,7 +31,8 @@ const handleResponse = async (response: Response) => {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
   }
-  return response.json();
+  const data = await response.json();
+  return data;
 };
 
 // 通用 API 請求函數
@@ -49,7 +50,7 @@ export const apiRequest = async <T>(
     return await handleResponse(response);
   } catch (error) {
     console.error('API Request Error:', error);
-    message.error(error instanceof Error ? error.message : '網路錯誤，請稍後再試');
+    // message.error(error instanceof Error ? error.message : '網路錯誤，請稍後再試'); // 移除全域錯誤彈窗
     throw error;
   }
 };

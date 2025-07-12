@@ -1,0 +1,24 @@
+2025-07-12 02:06:54.096 +08:00 [WRN] No XML encryptor configured. Key {a5255f65-5ba6-40ef-a9dd-569c7c426484} may be persisted to storage in unencrypted form.
+2025-07-12 19:11:11.324 +08:00 [INF] HTTP GET /healthz responded 200 in 167.7288 ms
+2025-07-12 19:11:15.035 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 404 in 5.2264 ms
+2025-07-12 19:11:17.811 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 404 in 2.1051 ms
+2025-07-12 19:11:21.419 +08:00 [INF] HTTP GET /api/v1/menu responded 401 in 5.5643 ms
+2025-07-12 19:11:25.150 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 19:11:25.575 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 508.8740 ms
+2025-07-12 19:11:31.761 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 404 in 12.6671 ms
+2025-07-12 19:11:36.677 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 404 in 0.4987 ms
+2025-07-12 19:12:36.782 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 404 in 1.4240 ms
+2025-07-12 19:12:41.853 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 404 in 0.2560 ms
+2025-07-12 19:16:10.950 +08:00 [INF] HTTP GET /healthz responded 200 in 168.0801 ms
+2025-07-12 19:16:18.755 +08:00 [INF] 取得最新版本號請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8
+2025-07-12 19:16:19.150 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 200 in 489.6416 ms
+2025-07-12 19:16:25.149 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 19:16:25.225 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 92.2550 ms
+2025-07-12 19:16:33.581 +08:00 [INF] 菜單建立請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=1
+2025-07-12 19:16:33.674 +08:00 [INF] 菜單已建立至版本 1
+2025-07-12 19:16:33.677 +08:00 [INF] HTTP POST /api/v1/menu responded 200 in 120.2781 ms
+2025-07-12 19:16:40.894 +08:00 [INF] 取得最新版本號請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8
+2025-07-12 19:16:40.913 +08:00 [INF] HTTP GET /api/v1/menu/latest-version responded 200 in 24.4004 ms
+2025-07-12 19:16:50.521 +08:00 [INF] 菜單建立請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=2
+2025-07-12 19:16:50.523 +08:00 [INF] HTTP POST /api/v1/menu responded 400 in 3.5840 ms
+2025-07-12 19:16:59.353 +08:00 [INF] HTTP POST /api/v1/menu responded 400 in 10.2237 ms
