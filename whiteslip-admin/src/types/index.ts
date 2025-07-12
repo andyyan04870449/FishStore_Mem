@@ -21,6 +21,37 @@ export interface LoginResponse {
   message: string;
 }
 
+// 授權碼相關類型
+export interface GenerateAuthCodeRequest {
+  deviceName: string;
+}
+
+export interface AuthCodeResponse {
+  success: boolean;
+  authCode?: string;
+  deviceId?: string;
+  message: string;
+}
+
+export interface DeviceInfo {
+  deviceId: string;
+  deviceCode: string;
+  lastSeen: string;
+  isActive: boolean;
+}
+
+export interface DeviceListResponse {
+  success: boolean;
+  devices: DeviceInfo[];
+  totalCount: number;
+  message?: string;
+}
+
+export interface BaseResponse {
+  success: boolean;
+  message: string;
+}
+
 // 菜單類型
 export interface MenuItem {
   name: string;

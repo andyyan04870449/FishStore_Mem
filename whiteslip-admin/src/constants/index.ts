@@ -9,6 +9,8 @@ export const API_ENDPOINTS = {
   ORDERS: '/api/v1/orders',
   REPORTS: '/api/v1/reports',
   USERS: '/api/v1/users',
+  AUTH_GENERATE_CODE: '/api/v1/auth/generate-auth-code',
+  AUTH_DEVICES: '/api/v1/auth/devices',
   HEALTH: '/healthz',
 } as const;
 
@@ -28,6 +30,7 @@ export const ROUTES = {
   REPORTS: '/reports',
   USERS: '/users',
   SETTINGS: '/settings',
+  AUTH_MANAGEMENT: '/auth-management',
 } as const;
 
 // 本地儲存鍵值

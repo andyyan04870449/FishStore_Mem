@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WhiteSlip.Api.Data;
@@ -147,5 +148,139 @@ public class AuthController : ControllerBase
                 Message = "登入服務暫時不可用"
             });
         }
+    }
+
+    // 新增：生成授權碼
+    [HttpPost("generate-auth-code")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<AuthCodeResponse>> GenerateAuthCode([FromBody] GenerateAuthCodeRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("生成授權碼請求: {DeviceName}", request.DeviceName);
+
+            // 生成唯一的授權碼
+            var authCode = GenerateUniqueAuthCode();
+            
+            // 創建設備記錄
+            var device = new Device
+            {
+                DeviceCode = authCode,
+                LastSeen = DateTime.UtcNow
+            };
+            
+            _context.Devices.Add(device);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("成功生成授權碼: {AuthCode} for {DeviceName}", authCode, request.DeviceName);
+
+            return Ok(new AuthCodeResponse
+            {
+                Success = true,
+                AuthCode = authCode,
+                DeviceId = device.DeviceId,
+                Message = "授權碼生成成功"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "生成授權碼時發生錯誤");
+            return StatusCode(500, new AuthCodeResponse
+            {
+                Success = false,
+                Message = "生成授權碼失敗"
+            });
+        }
+    }
+
+    // 新增：獲取裝置列表
+    [HttpGet("devices")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<DeviceListResponse>> GetDevices()
+    {
+        try
+        {
+            var devices = await _context.Devices
+                .OrderByDescending(d => d.LastSeen)
+                .Select(d => new DeviceInfo
+                {
+                    DeviceId = d.DeviceId,
+                    DeviceCode = d.DeviceCode,
+                    LastSeen = d.LastSeen,
+                    IsActive = d.LastSeen > DateTime.UtcNow.AddHours(-24) // 24小時內有活動視為活躍
+                })
+                .ToListAsync();
+
+            return Ok(new DeviceListResponse
+            {
+                Success = true,
+                Devices = devices,
+                TotalCount = devices.Count
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "獲取裝置列表時發生錯誤");
+            return StatusCode(500, new DeviceListResponse
+            {
+                Success = false,
+                Message = "獲取裝置列表失敗"
+            });
+        }
+    }
+
+    // 新增：刪除裝置
+    [HttpDelete("devices/{deviceId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<BaseResponse>> DeleteDevice(Guid deviceId)
+    {
+        try
+        {
+            var device = await _context.Devices.FindAsync(deviceId);
+            if (device == null)
+            {
+                return NotFound(new BaseResponse
+                {
+                    Success = false,
+                    Message = "裝置不存在"
+                });
+            }
+
+            _context.Devices.Remove(device);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("成功刪除裝置: {DeviceCode}", device.DeviceCode);
+
+            return Ok(new BaseResponse
+            {
+                Success = true,
+                Message = "裝置刪除成功"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "刪除裝置時發生錯誤: {DeviceId}", deviceId);
+            return StatusCode(500, new BaseResponse
+            {
+                Success = false,
+                Message = "刪除裝置失敗"
+            });
+        }
+    }
+
+    // 私有方法：生成唯一授權碼
+    private string GenerateUniqueAuthCode()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var random = new Random();
+        string authCode;
+        
+        do
+        {
+            authCode = new string(Enumerable.Repeat(chars, 8)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        } while (_context.Devices.Any(d => d.DeviceCode == authCode));
+
+        return authCode;
     }
 } 

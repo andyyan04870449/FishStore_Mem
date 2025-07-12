@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout as AntLayout, Menu, Button, Avatar, Dropdown } from 'antd';
-import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, LogoutOutlined, KeyOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
@@ -68,6 +68,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       icon: <UserOutlined />,
       label: '使用者管理',
       onClick: () => navigate(ROUTES.USERS),
+    }] : []),
+    ...(role === 'Admin' ? [{
+      key: ROUTES.AUTH_MANAGEMENT,
+      icon: <KeyOutlined />,
+      label: '授權管理',
+      onClick: () => navigate(ROUTES.AUTH_MANAGEMENT),
     }] : []),
     ...(role === 'Admin' ? [{
       key: ROUTES.SETTINGS,

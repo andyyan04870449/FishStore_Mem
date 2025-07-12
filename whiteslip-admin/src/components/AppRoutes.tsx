@@ -11,6 +11,7 @@ import ReportsPage from '../pages/Reports/ReportsPage';
 import UsersPage from '../pages/Users/UsersPage';
 import SettingsPage from '../pages/Settings/SettingsPage';
 import LogsPage from '../pages/Logs/LogsPage';
+import AuthManagementPage from '../pages/AuthManagement/AuthManagementPage';
 import { hasPermission } from '../utils/permission';
 
 const AppRoutes: React.FC = () => {
@@ -34,10 +35,12 @@ const AppRoutes: React.FC = () => {
         <Route path="/orders" element={<OrdersPage />} />
         {role && hasPermission(role, 'Manager') && <Route path="/reports" element={<ReportsPage />} />}
         {role === 'Admin' && <Route path="/users" element={<UsersPage />} />}
+        {role === 'Admin' && <Route path="/auth-management" element={<AuthManagementPage />} />}
         {role === 'Admin' && <Route path="/settings" element={<SettingsPage />} />}
         {role === 'Admin' && <Route path="/logs" element={<LogsPage />} />}
         <Route path="/reports" element={<Navigate to="/dashboard" replace />} />
         <Route path="/users" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/auth-management" element={<Navigate to="/dashboard" replace />} />
         <Route path="/settings" element={<Navigate to="/dashboard" replace />} />
         <Route path="/logs" element={<Navigate to="/dashboard" replace />} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
