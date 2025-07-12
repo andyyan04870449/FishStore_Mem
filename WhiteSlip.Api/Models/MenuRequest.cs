@@ -26,11 +26,6 @@ public class MenuCategoryRequest
 
 public class MenuItemRequest
 {
-    [Required(ErrorMessage = "SKU 不能為空")]
-    [StringLength(50, ErrorMessage = "SKU 不能超過50個字元")]
-    [RegularExpression(@"^[A-Z0-9]+$", ErrorMessage = "SKU 只能包含大寫字母和數字")]
-    public string Sku { get; set; } = string.Empty;
-    
     [Required(ErrorMessage = "項目名稱不能為空")]
     [StringLength(200, ErrorMessage = "項目名稱不能超過200個字元")]
     public string Name { get; set; } = string.Empty;

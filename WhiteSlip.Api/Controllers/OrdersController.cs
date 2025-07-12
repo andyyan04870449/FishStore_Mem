@@ -72,7 +72,6 @@ public class OrdersController : ControllerBase
                         {
                             OrderId = orderRequest.OrderId,
                             LineNo = i + 1,
-                            Sku = item.Sku,
                             Name = item.Name,
                             Qty = item.Qty,
                             UnitPrice = item.UnitPrice,
@@ -193,7 +192,6 @@ public class OrderRequest
 
 public class OrderItemRequest
 {
-    public string Sku { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public int Qty { get; set; }
     public decimal UnitPrice { get; set; }

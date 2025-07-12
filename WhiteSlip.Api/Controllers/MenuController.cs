@@ -106,24 +106,7 @@ public class MenuController : ControllerBase
                 return BadRequest(new { message = "至少需要一個分類" });
             }
 
-            // 檢查 SKU 重複
-            var allSkus = request.Categories
-                .SelectMany(c => c.Items)
-                .Select(i => i.Sku)
-                .ToList();
-            
-            var duplicateSkus = allSkus
-                .GroupBy(sku => sku)
-                .Where(g => g.Count() > 1)
-                .Select(g => g.Key)
-                .ToList();
 
-            if (duplicateSkus.Any())
-            {
-                return BadRequest(new { 
-                    message = $"SKU 重複: {string.Join(", ", duplicateSkus)}" 
-                });
-            }
 
             // 驗證必填欄位
             foreach (var category in request.Categories)
@@ -135,10 +118,6 @@ public class MenuController : ControllerBase
 
                 foreach (var item in category.Items)
                 {
-                    if (string.IsNullOrWhiteSpace(item.Sku))
-                    {
-                        return BadRequest(new { message = "SKU 不能為空" });
-                    }
                     if (string.IsNullOrWhiteSpace(item.Name))
                     {
                         return BadRequest(new { message = "項目名稱不能為空" });

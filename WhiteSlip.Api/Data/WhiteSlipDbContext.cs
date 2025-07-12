@@ -73,7 +73,6 @@ public class WhiteSlipDbContext : DbContext
             entity.HasKey(e => new { e.OrderId, e.LineNo });
             entity.Property(e => e.OrderId).HasColumnName("order_id").HasMaxLength(20);
             entity.Property(e => e.LineNo).HasColumnName("line_no");
-            entity.Property(e => e.Sku).HasColumnName("sku").HasMaxLength(50).IsRequired();
             entity.Property(e => e.Name).HasColumnName("name").HasMaxLength(200).IsRequired();
             entity.Property(e => e.Qty).HasColumnName("qty").IsRequired();
             entity.Property(e => e.UnitPrice).HasColumnName("unit_price").HasColumnType("decimal(10,2)").IsRequired();

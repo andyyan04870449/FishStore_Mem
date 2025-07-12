@@ -19,8 +19,20 @@ const MenuPage: React.FC = () => {
     try {
       setLoading(true);
       setNoMenu(false);
-      const response = await api.get<Menu[]>(API_ENDPOINTS.MENU);
-      setMenus(response);
+      const response = await api.get<any>(API_ENDPOINTS.MENU);
+      
+      // 後端回傳單一菜單物件，轉換為陣列格式
+      if (response && response.version) {
+        const menu: Menu = {
+          id: '1', // 使用固定 ID
+          version: response.version,
+          lastUpdated: response.lastUpdated,
+          menu: response.menu
+        };
+        setMenus([menu]);
+      } else {
+        setMenus([]);
+      }
     } catch (error: any) {
       // 檢查 404 狀態
       if (error.message && (error.message.includes('404') || error.message.includes('菜單不存在'))) {
