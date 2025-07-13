@@ -59,7 +59,7 @@ public class OrdersController : ControllerBase
                         OrderId = orderRequest.OrderId,
                         BusinessDay = DateOnly.FromDateTime(orderRequest.BusinessDay),
                         Total = orderRequest.Total,
-                        CreatedAt = orderRequest.CreatedAt
+                        CreatedAt = DateTime.SpecifyKind(orderRequest.CreatedAt, DateTimeKind.Utc)
                     };
 
                     _context.Orders.Add(order);
@@ -129,48 +129,65 @@ public class OrdersController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<object>> GetOrders(
-        [FromQuery] DateTime? fromDate,
-        [FromQuery] DateTime? toDate,
+        [FromQuery] string? orderId,
+        [FromQuery] DateTime? businessDay,
+        [FromQuery] DateTime? startDate,
+        [FromQuery] DateTime? endDate,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
     {
         try
         {
             var deviceId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            _logger.LogInformation("訂單查詢: DeviceId={DeviceId}, From={From}, To={To}", deviceId, fromDate, toDate);
+            _logger.LogInformation("訂單查詢: DeviceId={DeviceId}, OrderId={OrderId}, BusinessDay={BusinessDay}, StartDate={StartDate}, EndDate={EndDate}", 
+                deviceId, orderId, businessDay, startDate, endDate);
 
             var query = _context.Orders.AsQueryable();
 
-            if (fromDate.HasValue)
-                query = query.Where(o => o.BusinessDay >= DateOnly.FromDateTime(fromDate.Value));
+            // 訂單編號篩選
+            if (!string.IsNullOrWhiteSpace(orderId))
+                query = query.Where(o => o.OrderId.Contains(orderId));
 
-            if (toDate.HasValue)
-                query = query.Where(o => o.BusinessDay <= DateOnly.FromDateTime(toDate.Value));
+            // 營業日期篩選
+            if (businessDay.HasValue)
+                query = query.Where(o => o.BusinessDay == DateOnly.FromDateTime(businessDay.Value));
+
+            // 日期範圍篩選
+            if (startDate.HasValue)
+                query = query.Where(o => o.BusinessDay >= DateOnly.FromDateTime(startDate.Value));
+
+            if (endDate.HasValue)
+                query = query.Where(o => o.BusinessDay <= DateOnly.FromDateTime(endDate.Value));
 
             var totalCount = await query.CountAsync();
             var orders = await query
                 .OrderByDescending(o => o.CreatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Select(o => new
-                {
-                    o.OrderId,
-                    o.BusinessDay,
-                    o.Total,
-                    o.CreatedAt
-                })
+                .Include(o => o.OrderItems)
                 .ToListAsync();
+
+            var result = orders.Select(o => new
+            {
+                o.OrderId,
+                o.BusinessDay,
+                o.Total,
+                o.CreatedAt,
+                Items = o.OrderItems.Select(oi => new
+                {
+                    oi.Name,
+                    oi.Qty,
+                    oi.UnitPrice,
+                    oi.Subtotal
+                }).ToList()
+            }).ToList();
 
             return Ok(new
             {
-                orders,
-                pagination = new
-                {
-                    page,
-                    pageSize,
-                    totalCount,
-                    totalPages = (int)Math.Ceiling((double)totalCount / pageSize)
-                }
+                data = result,
+                page,
+                pageSize,
+                total = totalCount
             });
         }
         catch (Exception ex)

@@ -375,7 +375,7 @@ public class AuthController : ControllerBase
         
         do
         {
-            authCode = new string(Enumerable.Repeat(chars, 8)
+            authCode = new string(Enumerable.Repeat(chars, 6)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         } while (_context.Devices.Any(d => d.DeviceCode == authCode));
 

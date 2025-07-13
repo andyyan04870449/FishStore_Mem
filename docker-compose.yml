@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: whiteslip_postgres
+    environment:
+      POSTGRES_DB: wsl
+      POSTGRES_USER: white
+      POSTGRES_PASSWORD: slip
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - whiteslip_network
+
+  # .NET API
+  api:
+    build:
+      context: ./WhiteSlip.Api
+      dockerfile: Dockerfile
+    container_name: whiteslip_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Username=white;Password=slip;Database=wsl
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+    networks:
+      - whiteslip_network
+
+  # React Admin Frontend
+  admin:
+    build:
+      context: ./whiteslip-admin
+      dockerfile: Dockerfile
+    container_name: whiteslip_admin
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://api:5001
+    depends_on:
+      - api
+    networks:
+      - whiteslip_network
+
+volumes:
+  postgres_data:
+
+networks:
+  whiteslip_network:
+    driver: bridge 

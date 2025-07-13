@@ -3,11 +3,13 @@ import '../models/menu.dart';
 
 class MenuItemCard extends StatelessWidget {
   final MenuItem menuItem;
+  final String category;
   final VoidCallback onTap;
 
   const MenuItemCard({
     super.key,
     required this.menuItem,
+    required this.category,
     required this.onTap,
   });
 
@@ -33,7 +35,7 @@ class MenuItemCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
-                    _getCategoryIcon(menuItem.category),
+                    _getCategoryIcon(category),
                     size: 48,
                     color: Theme.of(context).primaryColor,
                   ),
@@ -63,7 +65,7 @@ class MenuItemCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  menuItem.category,
+                  category,
                   style: TextStyle(
                     fontSize: 10,
                     color: Theme.of(context).primaryColor,

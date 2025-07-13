@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
 import '../models/order.dart';
+import '../models/menu.dart';
 
 class OrderSummary extends StatelessWidget {
   final VoidCallback onPrint;
@@ -95,9 +96,21 @@ class OrderSummary extends StatelessWidget {
                     final item = provider.currentOrderItems[index];
                     return _OrderItemTile(
                       item: item,
-                      onIncrease: () => provider.addItemToOrder(
-                        provider.menu!.items.firstWhere((menuItem) => menuItem.sku == item.sku),
-                      ),
+                      onIncrease: () {
+                        // 在所有分類中查找對應的菜單項目
+                        MenuItem? foundItem;
+                        for (final category in provider.menu!.menu.categories) {
+                          try {
+                            foundItem = category.items.firstWhere((menuItem) => menuItem.sku == item.sku);
+                            break;
+                          } catch (e) {
+                            // 繼續查找下一個分類
+                          }
+                        }
+                        if (foundItem != null) {
+                          provider.addItemToOrder(foundItem);
+                        }
+                      },
                       onDecrease: () => provider.decreaseItemQuantity(item.sku),
                       onRemove: () => provider.removeItemFromOrder(item.sku),
                     );

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WhiteSlip.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99f76b20992ed2daaca43e9415d6ec684f756f53")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62154efc1d5695b6fb474e4c8dc0076084742767")]
 [assembly: System.Reflection.AssemblyProductAttribute("WhiteSlip.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WhiteSlip.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

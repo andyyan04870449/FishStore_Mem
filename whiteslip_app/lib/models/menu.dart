@@ -5,13 +5,14 @@ part 'menu.g.dart';
 @JsonSerializable()
 class Menu {
   final int version;
+  @JsonKey(name: 'lastUpdated')
   final DateTime updatedAt;
-  final List<MenuItem> items;
+  final MenuData menu;
 
   Menu({
     required this.version,
     required this.updatedAt,
-    required this.items,
+    required this.menu,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) => _$MenuFromJson(json);
@@ -20,14 +21,40 @@ class Menu {
   Menu copyWith({
     int? version,
     DateTime? updatedAt,
-    List<MenuItem>? items,
+    MenuData? menu,
   }) {
     return Menu(
       version: version ?? this.version,
       updatedAt: updatedAt ?? this.updatedAt,
-      items: items ?? this.items,
+      menu: menu ?? this.menu,
     );
   }
+}
+
+@JsonSerializable()
+class MenuData {
+  final List<MenuCategory> categories;
+
+  MenuData({
+    required this.categories,
+  });
+
+  factory MenuData.fromJson(Map<String, dynamic> json) => _$MenuDataFromJson(json);
+  Map<String, dynamic> toJson() => _$MenuDataToJson(this);
+}
+
+@JsonSerializable()
+class MenuCategory {
+  final String name;
+  final List<MenuItem> items;
+
+  MenuCategory({
+    required this.name,
+    required this.items,
+  });
+
+  factory MenuCategory.fromJson(Map<String, dynamic> json) => _$MenuCategoryFromJson(json);
+  Map<String, dynamic> toJson() => _$MenuCategoryToJson(this);
 }
 
 @JsonSerializable()
@@ -35,14 +62,13 @@ class MenuItem {
   final String sku;
   final String name;
   final double price;
-  final String category;
+  @JsonKey(defaultValue: true)
   final bool available;
 
   MenuItem({
     required this.sku,
     required this.name,
     required this.price,
-    required this.category,
     this.available = true,
   });
 
@@ -53,14 +79,12 @@ class MenuItem {
     String? sku,
     String? name,
     double? price,
-    String? category,
     bool? available,
   }) {
     return MenuItem(
       sku: sku ?? this.sku,
       name: name ?? this.name,
       price: price ?? this.price,
-      category: category ?? this.category,
       available: available ?? this.available,
     );
   }

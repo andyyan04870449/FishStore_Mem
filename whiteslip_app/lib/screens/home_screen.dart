@@ -22,29 +22,35 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  List<MenuItem> _getFilteredItems() {
+  List<MapEntry<MenuItem, String>> _getFilteredItems() {
     final appProvider = context.read<AppProvider>();
     final menu = appProvider.menu;
     
     if (menu == null) return [];
 
-    List<MenuItem> items = menu.items.where((item) => item.available).toList();
+    // 從所有分類中收集所有項目及其分類
+    List<MapEntry<MenuItem, String>> allItems = [];
+    for (final category in menu.menu.categories) {
+      for (final item in category.items.where((item) => item.available)) {
+        allItems.add(MapEntry(item, category.name));
+      }
+    }
 
     // 分類篩選
     if (_selectedCategory != '全部') {
-      items = items.where((item) => item.category == _selectedCategory).toList();
+      allItems = allItems.where((entry) => entry.value == _selectedCategory).toList();
     }
 
     // 搜尋篩選
     if (_searchController.text.isNotEmpty) {
       final searchTerm = _searchController.text.toLowerCase();
-      items = items.where((item) => 
-        item.name.toLowerCase().contains(searchTerm) ||
-        item.sku.toLowerCase().contains(searchTerm)
+      allItems = allItems.where((entry) => 
+        entry.key.name.toLowerCase().contains(searchTerm) ||
+        entry.key.sku.toLowerCase().contains(searchTerm)
       ).toList();
     }
 
-    return items;
+    return allItems;
   }
 
   List<String> _getCategories() {
@@ -53,10 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
     
     if (menu == null) return ['全部'];
 
-    final categories = menu.items
-        .where((item) => item.available)
-        .map((item) => item.category)
-        .toSet()
+    final categories = menu.menu.categories
+        .where((category) => category.items.any((item) => item.available))
+        .map((category) => category.name)
         .toList();
     
     categories.sort();
@@ -265,9 +270,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         itemCount: _getFilteredItems().length,
                         itemBuilder: (context, index) {
-                          final item = _getFilteredItems()[index];
+                          final entry = _getFilteredItems()[index];
+                          final item = entry.key;
+                          final category = entry.value;
                           return MenuItemCard(
                             menuItem: item,
+                            category: category,
                             onTap: () => provider.addItemToOrder(item),
                           );
                         },

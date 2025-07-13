@@ -18,6 +18,9 @@ const OrdersPage: React.FC = () => {
     total: 0,
   });
 
+  // 取得今天的日期
+  const today = dayjs();
+
   // 取得訂單列表
   const fetchOrders = async (params: any = {}) => {
     try {
@@ -49,7 +52,18 @@ const OrdersPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchOrders();
+    // 初始化搜尋表單，設定預設值為今天
+    searchForm.setFieldsValue({
+      businessDay: today,
+      dateRange: [today, today],
+    });
+    
+    // 載入今天的訂單
+    fetchOrders({
+      businessDay: today.format('YYYY-MM-DD'),
+      startDate: today.format('YYYY-MM-DD'),
+      endDate: today.format('YYYY-MM-DD'),
+    });
   }, []);
 
   // 搜尋訂單
@@ -74,8 +88,20 @@ const OrdersPage: React.FC = () => {
 
   // 重置搜尋
   const handleReset = () => {
-    searchForm.resetFields();
-    fetchOrders({ current: 1 });
+    // 重置為今天的日期
+    searchForm.setFieldsValue({
+      orderId: undefined,
+      businessDay: today,
+      dateRange: [today, today],
+    });
+    
+    // 重新載入今天的訂單
+    fetchOrders({
+      businessDay: today.format('YYYY-MM-DD'),
+      startDate: today.format('YYYY-MM-DD'),
+      endDate: today.format('YYYY-MM-DD'),
+      current: 1,
+    });
   };
 
   // 查看訂單詳情

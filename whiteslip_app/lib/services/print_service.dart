@@ -26,7 +26,7 @@ class PrintService {
     if (now.hour < 2) {
       now = now.subtract(const Duration(days: 1));
     }
-    return '${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}';
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
   }
 
   // 生成 ESC/POS 指令

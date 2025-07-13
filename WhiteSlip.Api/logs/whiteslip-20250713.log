@@ -1,0 +1,11 @@
+2025-07-13 23:46:53.952 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.4926 ms
+2025-07-13 23:46:54.001 +08:00 [INF] HTTP GET /api/v1/reports responded 401 in 15.0224 ms
+2025-07-13 23:46:54.496 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0691 ms
+2025-07-13 23:46:54.498 +08:00 [INF] HTTP GET /api/v1/menu responded 401 in 0.8585 ms
+2025-07-13 23:46:55.303 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0475 ms
+2025-07-13 23:46:55.305 +08:00 [INF] HTTP GET /api/v1/orders responded 401 in 0.9221 ms
+2025-07-13 23:47:02.848 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 0.3512 ms
+2025-07-13 23:47:02.856 +08:00 [INF] 使用者登入請求: admim
+2025-07-13 23:47:02.906 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 401 in 56.4849 ms
+2025-07-13 23:48:00.569 +08:00 [INF] HTTP GET / responded 200 in 10.2363 ms
+2025-07-13 23:48:00.649 +08:00 [INF] HTTP GET /favicon.ico responded 404 in 0.2721 ms

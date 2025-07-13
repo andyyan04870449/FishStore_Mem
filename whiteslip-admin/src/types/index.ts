@@ -33,10 +33,23 @@ export interface AuthCodeResponse {
   message: string;
 }
 
+export enum DeviceStatus {
+  Inactive = 0,
+  Active = 1,
+  Disabled = 2,
+  Deleted = 3
+}
+
 export interface DeviceInfo {
   deviceId: string;
   deviceCode: string;
+  deviceName?: string;
   lastSeen: string;
+  status: DeviceStatus;
+  createdAt: string;
+  activatedAt?: string;
+  disabledAt?: string;
+  deletedAt?: string;
   isActive: boolean;
 }
 

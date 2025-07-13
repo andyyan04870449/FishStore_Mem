@@ -1,0 +1,3 @@
+2025-07-14 00:53:40.952 +08:00 [ERR] Failed executing DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE order_items ALTER COLUMN sku TYPE character varying(50);
+ALTER TABLE order_items ALTER COLUMN sku DROP NOT NULL;

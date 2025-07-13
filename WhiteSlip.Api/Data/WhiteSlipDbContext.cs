@@ -28,6 +28,12 @@ public class WhiteSlipDbContext : DbContext
             entity.Property(e => e.DeviceCode).HasColumnName("device_code").HasMaxLength(50).IsRequired();
             entity.Property(e => e.Jwt).HasColumnName("jwt").IsRequired();
             entity.Property(e => e.LastSeen).HasColumnName("last_seen");
+            entity.Property(e => e.Status).HasColumnName("status").HasConversion<int>().IsRequired();
+            entity.Property(e => e.DeviceName).HasColumnName("device_name").HasMaxLength(100);
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.ActivatedAt).HasColumnName("activated_at");
+            entity.Property(e => e.DisabledAt).HasColumnName("disabled_at");
+            entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
             entity.HasIndex(e => e.DeviceCode).IsUnique();
         });
 

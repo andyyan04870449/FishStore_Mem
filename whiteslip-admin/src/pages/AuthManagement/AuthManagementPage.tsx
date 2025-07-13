@@ -14,7 +14,8 @@ import {
   Tooltip,
   Row,
   Col,
-  Statistic
+  Statistic,
+  Switch
 } from 'antd';
 import { 
   PlusOutlined, 
@@ -22,7 +23,11 @@ import {
   CopyOutlined, 
   ReloadOutlined,
   KeyOutlined,
-  DesktopOutlined
+  DesktopOutlined,
+  StopOutlined,
+  PlayCircleOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined
 } from '@ant-design/icons';
 import { api } from '../../services/api';
 import { API_ENDPOINTS } from '../../constants';
@@ -31,7 +36,8 @@ import {
   AuthCodeResponse, 
   DeviceInfo, 
   DeviceListResponse,
-  BaseResponse 
+  BaseResponse,
+  DeviceStatus
 } from '../../types';
 import dayjs from 'dayjs';
 
@@ -42,12 +48,13 @@ const AuthManagementPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [generatedCode, setGeneratedCode] = useState<string>('');
+  const [showDeleted, setShowDeleted] = useState(false);
   const [form] = Form.useForm();
 
   const fetchDevices = async () => {
     setLoading(true);
     try {
-      const response = await api.get<DeviceListResponse>(API_ENDPOINTS.AUTH_DEVICES);
+      const response = await api.get<DeviceListResponse>(`${API_ENDPOINTS.AUTH_DEVICES}?includeDeleted=${showDeleted}`);
       if (response.success) {
         setDevices(response.devices);
       } else {
@@ -62,7 +69,7 @@ const AuthManagementPage: React.FC = () => {
 
   useEffect(() => {
     fetchDevices();
-  }, []);
+  }, [showDeleted]);
 
   const handleGenerateCode = async (values: GenerateAuthCodeRequest) => {
     try {
@@ -77,6 +84,34 @@ const AuthManagementPage: React.FC = () => {
       }
     } catch (err) {
       message.error('生成授權碼失敗');
+    }
+  };
+
+  const handleDisableDevice = async (deviceId: string) => {
+    try {
+      const response = await api.put<BaseResponse>(`${API_ENDPOINTS.AUTH_DEVICES}/${deviceId}/disable`);
+      if (response.success) {
+        message.success('裝置停用成功');
+        fetchDevices();
+      } else {
+        message.error(response.message || '停用裝置失敗');
+      }
+    } catch (err) {
+      message.error('停用裝置失敗');
+    }
+  };
+
+  const handleEnableDevice = async (deviceId: string) => {
+    try {
+      const response = await api.put<BaseResponse>(`${API_ENDPOINTS.AUTH_DEVICES}/${deviceId}/enable`);
+      if (response.success) {
+        message.success('裝置啟用成功');
+        fetchDevices();
+      } else {
+        message.error(response.message || '啟用裝置失敗');
+      }
+    } catch (err) {
+      message.error('啟用裝置失敗');
     }
   };
 
@@ -102,6 +137,36 @@ const AuthManagementPage: React.FC = () => {
     });
   };
 
+  const getStatusColor = (status: DeviceStatus) => {
+    switch (status) {
+      case DeviceStatus.Active:
+        return 'green';
+      case DeviceStatus.Inactive:
+        return 'orange';
+      case DeviceStatus.Disabled:
+        return 'red';
+      case DeviceStatus.Deleted:
+        return 'default';
+      default:
+        return 'default';
+    }
+  };
+
+  const getStatusText = (status: DeviceStatus) => {
+    switch (status) {
+      case DeviceStatus.Active:
+        return '激活';
+      case DeviceStatus.Inactive:
+        return '未激活';
+      case DeviceStatus.Disabled:
+        return '停用';
+      case DeviceStatus.Deleted:
+        return '已刪除';
+      default:
+        return '未知';
+    }
+  };
+
   const columns = [
     {
       title: '授權碼',
@@ -122,14 +187,31 @@ const AuthManagementPage: React.FC = () => {
       ),
     },
     {
+      title: '裝置名稱',
+      dataIndex: 'deviceName',
+      key: 'deviceName',
+      render: (name: string) => name || '-',
+    },
+    {
       title: '狀態',
-      dataIndex: 'isActive',
-      key: 'isActive',
-      render: (isActive: boolean) => (
-        <Tag color={isActive ? 'green' : 'red'}>
-          {isActive ? '活躍' : '離線'}
-        </Tag>
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: DeviceStatus, record: DeviceInfo) => (
+        <Space direction="vertical" size="small">
+          <Tag color={getStatusColor(status)}>
+            {getStatusText(status)}
+          </Tag>
+          {record.isActive && status === DeviceStatus.Active && (
+            <Tag color="green">活躍</Tag>
+          )}
+        </Space>
       ),
+    },
+    {
+      title: '建立時間',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (createdAt: string) => dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: '最後活動',
@@ -140,24 +222,59 @@ const AuthManagementPage: React.FC = () => {
     {
       title: '操作',
       key: 'action',
-      render: (_: any, record: DeviceInfo) => (
-        <Popconfirm
-          title="確定要刪除此裝置嗎？"
-          description="刪除後，該裝置將無法再使用此授權碼登入系統。"
-          onConfirm={() => handleDeleteDevice(record.deviceId)}
-          okText="確定"
-          cancelText="取消"
-        >
-          <Button type="text" danger icon={<DeleteOutlined />}>
-            刪除
-          </Button>
-        </Popconfirm>
-      ),
+      render: (_: any, record: DeviceInfo) => {
+        if (record.status === DeviceStatus.Deleted) {
+          return <Text type="secondary">已刪除</Text>;
+        }
+
+        return (
+          <Space>
+            {record.status === DeviceStatus.Disabled ? (
+              <Popconfirm
+                title="確定要啟用此裝置嗎？"
+                description="啟用後，該裝置將可以重新使用此授權碼登入系統。"
+                onConfirm={() => handleEnableDevice(record.deviceId)}
+                okText="確定"
+                cancelText="取消"
+              >
+                <Button type="text" icon={<PlayCircleOutlined />}>
+                  啟用
+                </Button>
+              </Popconfirm>
+            ) : (
+              <Popconfirm
+                title="確定要停用此裝置嗎？"
+                description="停用後，該裝置將無法使用此授權碼登入系統。"
+                onConfirm={() => handleDisableDevice(record.deviceId)}
+                okText="確定"
+                cancelText="取消"
+              >
+                <Button type="text" danger icon={<StopOutlined />}>
+                  停用
+                </Button>
+              </Popconfirm>
+            )}
+            <Popconfirm
+              title="確定要刪除此裝置嗎？"
+              description="刪除後，該裝置將無法再使用此授權碼登入系統。"
+              onConfirm={() => handleDeleteDevice(record.deviceId)}
+              okText="確定"
+              cancelText="取消"
+            >
+              <Button type="text" danger icon={<DeleteOutlined />}>
+                刪除
+              </Button>
+            </Popconfirm>
+          </Space>
+        );
+      },
     },
   ];
 
-  const activeDevices = devices.filter(d => d.isActive).length;
-  const totalDevices = devices.length;
+  const activeDevices = devices.filter(d => d.isActive && d.status === DeviceStatus.Active).length;
+  const totalDevices = devices.filter(d => d.status !== DeviceStatus.Deleted).length;
+  const disabledDevices = devices.filter(d => d.status === DeviceStatus.Disabled).length;
+  const inactiveDevices = devices.filter(d => d.status === DeviceStatus.Inactive).length;
 
   return (
     <div style={{ padding: 24 }}>
@@ -186,12 +303,41 @@ const AuthManagementPage: React.FC = () => {
             />
           </Card>
         </Col>
+        <Col span={6}>
+          <Card>
+            <Statistic
+              title="停用裝置"
+              value={disabledDevices}
+              valueStyle={{ color: '#cf1322' }}
+              prefix={<StopOutlined />}
+            />
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card>
+            <Statistic
+              title="未激活裝置"
+              value={inactiveDevices}
+              valueStyle={{ color: '#fa8c16' }}
+              prefix={<KeyOutlined />}
+            />
+          </Card>
+        </Col>
       </Row>
 
       <Card
         title="裝置管理"
         extra={
           <Space>
+            <Space>
+              <Text>顯示已刪除：</Text>
+              <Switch
+                checked={showDeleted}
+                onChange={setShowDeleted}
+                checkedChildren={<EyeOutlined />}
+                unCheckedChildren={<EyeInvisibleOutlined />}
+              />
+            </Space>
             <Button 
               icon={<ReloadOutlined />} 
               onClick={fetchDevices}

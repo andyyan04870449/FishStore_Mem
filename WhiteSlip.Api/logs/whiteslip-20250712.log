@@ -47,3 +47,226 @@ System.IO.IOException: Failed to bind to address http://127.0.0.1:5256: address 
    at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
    at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
    at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-07-12 21:54:35.941 +08:00 [INF] HTTP OPTIONS /api/v1/auth/generate-auth-code responded 204 in 1.7804 ms
+2025-07-12 21:54:36.034 +08:00 [INF] 生成授權碼請求: ipad
+2025-07-12 21:54:36.118 +08:00 [INF] 成功生成授權碼: 08QQQPD7 for ipad
+2025-07-12 21:54:36.129 +08:00 [INF] HTTP POST /api/v1/auth/generate-auth-code responded 200 in 150.2472 ms
+2025-07-12 21:54:36.132 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.2248 ms
+2025-07-12 21:54:36.216 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 82.4109 ms
+2025-07-12 22:28:59.949 +08:00 [INF] HTTP GET /healthz responded 200 in 31.2411 ms
+2025-07-12 22:29:05.136 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 401 in 4.3008 ms
+2025-07-12 22:29:07.941 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 22:29:08.018 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 401 in 114.8607 ms
+2025-07-12 22:29:29.133 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 22:29:29.179 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 48.4308 ms
+2025-07-12 22:29:33.873 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 71.1266 ms
+2025-07-12 22:29:48.078 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 1.3163 ms
+2025-07-12 22:29:48.083 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 22:29:48.086 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 5.3805 ms
+2025-07-12 22:29:48.150 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.1365 ms
+2025-07-12 22:29:48.646 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 494.9937 ms
+2025-07-12 22:29:48.647 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0763 ms
+2025-07-12 22:29:48.652 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-12 22:29:48.668 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 19.9079 ms
+2025-07-12 22:29:53.660 +08:00 [INF] HTTP OPTIONS /api/v1/users responded 204 in 0.7338 ms
+2025-07-12 22:29:53.679 +08:00 [INF] HTTP GET /api/v1/users responded 200 in 16.5530 ms
+2025-07-12 22:29:54.110 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.1848 ms
+2025-07-12 22:29:54.115 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 3.5682 ms
+2025-07-12 22:30:04.104 +08:00 [INF] HTTP OPTIONS /api/v1/auth/generate-auth-code responded 204 in 0.1115 ms
+2025-07-12 22:30:04.118 +08:00 [INF] 生成授權碼請求: 123
+2025-07-12 22:30:04.213 +08:00 [INF] 成功生成授權碼: II4FCKXQ for 123
+2025-07-12 22:30:04.216 +08:00 [INF] HTTP POST /api/v1/auth/generate-auth-code responded 200 in 109.1918 ms
+2025-07-12 22:30:04.219 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0409 ms
+2025-07-12 22:30:04.221 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 1.4583 ms
+2025-07-12 22:30:10.836 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/3d490fa5-7301-47d5-b517-5f40e624497a responded 204 in 0.2815 ms
+2025-07-12 22:30:10.888 +08:00 [INF] 成功刪除裝置: 08QQQPD7
+2025-07-12 22:30:10.889 +08:00 [INF] HTTP DELETE /api/v1/auth/devices/3d490fa5-7301-47d5-b517-5f40e624497a responded 200 in 52.0013 ms
+2025-07-12 22:30:10.891 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0587 ms
+2025-07-12 22:30:10.895 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.7114 ms
+2025-07-12 22:56:34.433 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.5028 ms
+2025-07-12 22:56:34.500 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 64.4953 ms
+2025-07-12 22:56:34.502 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0360 ms
+2025-07-12 22:56:34.503 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-12 22:56:34.510 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 7.6828 ms
+2025-07-12 23:05:06.191 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 3.4724 ms
+2025-07-12 23:05:06.309 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 114.2828 ms
+2025-07-12 23:05:06.311 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0383 ms
+2025-07-12 23:05:06.312 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-12 23:05:06.318 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 6.6226 ms
+2025-07-12 23:05:11.921 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 0.5522 ms
+2025-07-12 23:05:11.937 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 23:05:11.962 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 36.0607 ms
+2025-07-12 23:05:12.013 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.0549 ms
+2025-07-12 23:05:12.016 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 2.3673 ms
+2025-07-12 23:05:12.026 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 1.1205 ms
+2025-07-12 23:05:12.029 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-12 23:05:12.044 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 16.1129 ms
+2025-07-12 23:05:15.240 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.1045 ms
+2025-07-12 23:05:15.249 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 7.0013 ms
+2025-07-12 23:05:17.957 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/01ef4829-0af4-482c-9c37-6d0f18ff8702 responded 204 in 0.0916 ms
+2025-07-12 23:05:17.986 +08:00 [INF] 成功刪除裝置: II4FCKXQ
+2025-07-12 23:05:17.987 +08:00 [INF] HTTP DELETE /api/v1/auth/devices/01ef4829-0af4-482c-9c37-6d0f18ff8702 responded 200 in 28.3753 ms
+2025-07-12 23:05:17.990 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 1.7558 ms
+2025-07-12 23:05:19.324 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/536b71ba-a3c8-4481-b222-e1c362e504b0 responded 204 in 0.0801 ms
+2025-07-12 23:05:19.334 +08:00 [INF] 成功刪除裝置: TEST123
+2025-07-12 23:05:19.334 +08:00 [INF] HTTP DELETE /api/v1/auth/devices/536b71ba-a3c8-4481-b222-e1c362e504b0 responded 200 in 8.6679 ms
+2025-07-12 23:05:19.340 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.8093 ms
+2025-07-12 23:05:23.794 +08:00 [INF] HTTP OPTIONS /api/v1/auth/generate-auth-code responded 204 in 0.0722 ms
+2025-07-12 23:05:23.797 +08:00 [INF] 生成授權碼請求: ipad
+2025-07-12 23:05:23.805 +08:00 [INF] 成功生成授權碼: VU24BH6T for ipad
+2025-07-12 23:05:23.805 +08:00 [INF] HTTP POST /api/v1/auth/generate-auth-code responded 200 in 9.9848 ms
+2025-07-12 23:05:23.809 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0586 ms
+2025-07-12 23:05:23.813 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.9847 ms
+2025-07-12 23:05:33.986 +08:00 [INF] HTTP GET /healthz responded 200 in 80.8315 ms
+2025-07-12 23:05:39.481 +08:00 [INF] HTTP GET /healthz responded 200 in 0.8808 ms
+2025-07-12 23:05:39.511 +08:00 [INF] HTTP GET /healthz responded 200 in 0.9860 ms
+2025-07-12 23:05:39.529 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 23:05:39.533 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 5.9500 ms
+2025-07-12 23:05:39.557 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.1160 ms
+2025-07-12 23:05:39.579 +08:00 [INF] 生成授權碼請求: 自動測試裝置
+2025-07-12 23:05:39.582 +08:00 [INF] 成功生成授權碼: HIFZ3YKY for 自動測試裝置
+2025-07-12 23:05:39.582 +08:00 [INF] HTTP POST /api/v1/auth/generate-auth-code responded 200 in 4.3051 ms
+2025-07-12 23:05:39.635 +08:00 [INF] 成功停用裝置: HIFZ3YKY
+2025-07-12 23:05:39.636 +08:00 [INF] HTTP PUT /api/v1/auth/devices/621d8c24-74de-40e5-bcfa-7e8799c2ac87/disable responded 200 in 28.1901 ms
+2025-07-12 23:05:39.654 +08:00 [INF] 成功啟用裝置: HIFZ3YKY
+2025-07-12 23:05:39.655 +08:00 [INF] HTTP PUT /api/v1/auth/devices/621d8c24-74de-40e5-bcfa-7e8799c2ac87/enable responded 200 in 4.7818 ms
+2025-07-12 23:05:39.671 +08:00 [INF] 成功刪除裝置: HIFZ3YKY
+2025-07-12 23:05:39.671 +08:00 [INF] HTTP DELETE /api/v1/auth/devices/621d8c24-74de-40e5-bcfa-7e8799c2ac87 responded 200 in 2.7218 ms
+2025-07-12 23:05:39.688 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 401 in 4.3153 ms
+2025-07-12 23:05:39.701 +08:00 [INF] HTTP PUT /api/v1/auth/devices/00000000-0000-0000-0000-000000000000/disable responded 404 in 1.9183 ms
+2025-07-12 23:05:39.716 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 1.3087 ms
+2025-07-12 23:06:36.541 +08:00 [INF] HTTP POST /api/v1/devices/generate-code responded 404 in 61.2160 ms
+2025-07-12 23:06:40.797 +08:00 [INF] HTTP POST /api/v1/devices/generate-code responded 404 in 0.1204 ms
+2025-07-12 23:06:43.601 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 23:06:43.619 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 20.5498 ms
+2025-07-12 23:06:49.663 +08:00 [INF] HTTP POST /api/v1/devices/generate-code responded 404 in 2.1989 ms
+2025-07-12 23:06:54.214 +08:00 [INF] HTTP GET /api/v1/devices responded 404 in 0.2741 ms
+2025-07-12 23:07:09.568 +08:00 [INF] HTTP GET /api/v1/devices responded 404 in 2.1922 ms
+2025-07-12 23:07:26.356 +08:00 [INF] 生成授權碼請求: 測試iPad
+2025-07-12 23:07:26.364 +08:00 [INF] 成功生成授權碼: NILQ1GKJ for 測試iPad
+2025-07-12 23:07:26.364 +08:00 [INF] HTTP POST /api/v1/auth/generate-auth-code responded 200 in 12.1807 ms
+2025-07-12 23:07:31.760 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 12.4403 ms
+2025-07-12 23:08:42.516 +08:00 [INF] HTTP GET /healthz responded 200 in 27.4649 ms
+2025-07-12 23:08:47.795 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 23:08:47.875 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 98.1546 ms
+2025-07-12 23:08:57.690 +08:00 [INF] 生成授權碼請求: 測試iPad-6位數
+2025-07-12 23:08:57.765 +08:00 [INF] 成功生成授權碼: GYQML0 for 測試iPad-6位數
+2025-07-12 23:08:57.768 +08:00 [INF] HTTP POST /api/v1/auth/generate-auth-code responded 200 in 99.3968 ms
+2025-07-12 23:09:04.452 +08:00 [INF] 生成授權碼請求: iPad-測試2
+2025-07-12 23:09:04.475 +08:00 [INF] 成功生成授權碼: 6SH27M for iPad-測試2
+2025-07-12 23:09:04.475 +08:00 [INF] HTTP POST /api/v1/auth/generate-auth-code responded 200 in 28.1105 ms
+2025-07-12 23:09:09.933 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 53.7053 ms
+2025-07-12 23:09:17.607 +08:00 [INF] 成功刪除裝置: NILQ1GKJ
+2025-07-12 23:09:17.608 +08:00 [INF] HTTP DELETE /api/v1/auth/devices/e92c0b3f-f447-4f89-8a61-39884b457d88 responded 200 in 43.2444 ms
+2025-07-12 23:09:23.003 +08:00 [INF] 成功刪除裝置: VU24BH6T
+2025-07-12 23:09:23.003 +08:00 [INF] HTTP DELETE /api/v1/auth/devices/d17feb83-ae79-4e09-90f5-84b3a2dd7926 responded 200 in 3.3353 ms
+2025-07-12 23:09:29.110 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.4581 ms
+2025-07-12 23:09:39.007 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 3.1554 ms
+2025-07-12 23:09:39.015 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 23:09:39.037 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 24.8066 ms
+2025-07-12 23:09:39.125 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.4214 ms
+2025-07-12 23:09:39.157 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 31.2680 ms
+2025-07-12 23:09:39.159 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0955 ms
+2025-07-12 23:09:39.166 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-12 23:09:39.179 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 19.1095 ms
+2025-07-12 23:09:44.620 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 6.3990 ms
+2025-07-12 23:09:44.637 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 9.9268 ms
+2025-07-12 23:12:34.534 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:12:34.572 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:12:34.577 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 62.1650 ms
+2025-07-12 23:15:19.119 +08:00 [INF] HTTP GET /healthz responded 200 in 28.0085 ms
+2025-07-12 23:15:23.007 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.5866 ms
+2025-07-12 23:15:26.078 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:15:26.175 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:15:26.192 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 135.5574 ms
+2025-07-12 23:17:00.568 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:17:00.625 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:17:00.628 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 82.4802 ms
+2025-07-12 23:21:48.127 +08:00 [INF] HTTP GET / responded 200 in 7.6106 ms
+2025-07-12 23:21:48.150 +08:00 [INF] HTTP GET /favicon.ico responded 404 in 0.5637 ms
+2025-07-12 23:22:57.387 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:22:57.443 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:22:57.444 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 61.1806 ms
+2025-07-12 23:23:38.849 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 1.9780 ms
+2025-07-12 23:23:39.298 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 445.2008 ms
+2025-07-12 23:23:39.301 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0423 ms
+2025-07-12 23:23:39.307 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-12 23:23:39.341 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 38.8993 ms
+2025-07-12 23:23:47.887 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 1.6622 ms
+2025-07-12 23:23:47.908 +08:00 [INF] 使用者登入請求: admin
+2025-07-12 23:23:47.930 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 32.6545 ms
+2025-07-12 23:23:47.991 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.0835 ms
+2025-07-12 23:23:47.998 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 6.1393 ms
+2025-07-12 23:23:48.001 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0608 ms
+2025-07-12 23:23:48.002 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-12 23:23:48.024 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 21.9733 ms
+2025-07-12 23:23:49.765 +08:00 [INF] HTTP OPTIONS /api/v1/users responded 204 in 0.2602 ms
+2025-07-12 23:23:49.786 +08:00 [INF] HTTP GET /api/v1/users responded 200 in 19.1908 ms
+2025-07-12 23:23:50.232 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0887 ms
+2025-07-12 23:23:50.269 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 36.6204 ms
+2025-07-12 23:23:54.348 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.8906 ms
+2025-07-12 23:23:54.370 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:23:54.384 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:23:54.385 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 28.8540 ms
+2025-07-12 23:24:09.260 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.5082 ms
+2025-07-12 23:24:09.310 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:24:09.972 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:24:09.975 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 685.4725 ms
+2025-07-12 23:24:41.894 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:24:41.978 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:24:41.980 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 92.1814 ms
+2025-07-12 23:29:17.987 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.3705 ms
+2025-07-12 23:29:17.993 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:29:18.156 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:29:18.158 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 169.0599 ms
+2025-07-12 23:29:23.581 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.5579 ms
+2025-07-12 23:29:23.585 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:29:23.612 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:29:23.614 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 31.2312 ms
+2025-07-12 23:29:32.686 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.7189 ms
+2025-07-12 23:29:32.692 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:29:32.757 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:29:32.758 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 70.2289 ms
+2025-07-12 23:29:43.843 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.6700 ms
+2025-07-12 23:29:43.850 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:29:43.859 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:29:43.860 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 13.7373 ms
+2025-07-12 23:31:02.638 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.3859 ms
+2025-07-12 23:31:02.646 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:31:02.797 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:31:02.798 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 157.5964 ms
+2025-07-12 23:37:27.486 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 1.9091 ms
+2025-07-12 23:37:27.503 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:37:27.624 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:37:27.626 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 134.9342 ms
+2025-07-12 23:37:31.078 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0490 ms
+2025-07-12 23:37:31.081 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-12 23:37:31.093 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 14.6469 ms
+2025-07-12 23:37:32.612 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-12 23:37:32.614 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 2.5884 ms
+2025-07-12 23:37:34.279 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-12 23:37:34.281 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 2.8093 ms
+2025-07-12 23:37:37.443 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0563 ms
+2025-07-12 23:37:37.445 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-12 23:37:37.447 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 2.9400 ms
+2025-07-12 23:40:44.591 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.3723 ms
+2025-07-12 23:40:44.595 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:40:44.635 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:40:44.637 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 43.9722 ms
+2025-07-12 23:40:46.092 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0407 ms
+2025-07-12 23:40:46.097 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-12 23:40:46.109 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 16.2309 ms
+2025-07-12 23:41:25.473 +08:00 [INF] HTTP GET /api/v1/menu responded 401 in 8.2984 ms
+2025-07-12 23:41:27.650 +08:00 [INF] HTTP GET /api/v1/menu responded 401 in 0.2665 ms
+2025-07-12 23:45:26.758 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.3045 ms
+2025-07-12 23:45:26.765 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-12 23:45:26.866 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-12 23:45:26.868 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 107.8182 ms
+2025-07-12 23:45:28.176 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0510 ms
+2025-07-12 23:45:28.179 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-12 23:45:28.196 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 18.1809 ms
+2025-07-12 23:45:52.212 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 0.3839 ms
+2025-07-12 23:45:52.270 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 400 in 55.3157 ms
+2025-07-12 23:45:59.213 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0268 ms
+2025-07-12 23:45:59.215 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-12 23:45:59.230 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 15.2796 ms

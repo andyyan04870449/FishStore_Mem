@@ -40,7 +40,11 @@ public static class DbInitializer
             var testDevice = new Device
             {
                 DeviceCode = "TEST123",
-                LastSeen = DateTime.UtcNow
+                DeviceName = "測試裝置",
+                Status = DeviceStatus.Active,
+                LastSeen = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow,
+                ActivatedAt = DateTime.UtcNow
             };
 
             context.Devices.Add(testDevice);

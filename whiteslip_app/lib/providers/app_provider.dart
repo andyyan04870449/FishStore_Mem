@@ -3,12 +3,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import '../models/order.dart';
 import '../models/menu.dart';
 import '../models/auth.dart';
-import '../services/database_service.dart';
+import '../services/storage_service.dart';
 import '../services/api_service.dart';
 import '../services/print_service.dart';
 
 class AppProvider extends ChangeNotifier {
-  final DatabaseService _databaseService = DatabaseService();
+  final StorageService _storageService = StorageServiceFactory.create();
   final ApiService _apiService = ApiService();
 
   // 認證狀態
@@ -44,7 +44,8 @@ class AppProvider extends ChangeNotifier {
 
   // 初始化應用程式
   Future<void> initialize() async {
-    _setLoading(true);
+    // 直接設置狀態，不觸發 notifyListeners
+    _isLoading = true;
     
     try {
       // 檢查網路連線
@@ -65,7 +66,7 @@ class AppProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint('初始化失敗: $e');
     } finally {
-      _setLoading(false);
+      _isLoading = false;
     }
   }
 
@@ -77,12 +78,12 @@ class AppProvider extends ChangeNotifier {
       final authResponse = await _apiService.authenticate(deviceCode);
       
       _device = Device(
-        deviceId: authResponse.deviceId,
-        jwt: authResponse.jwt,
+        deviceId: authResponse.token, // 使用 token 作為 deviceId
+        jwt: authResponse.token,
         lastSeen: DateTime.now(),
       );
       
-      await _databaseService.saveDevice(_device!);
+      await _storageService.saveDevice(_device!);
       _isAuthenticated = true;
       
       notifyListeners();
@@ -97,15 +98,13 @@ class AppProvider extends ChangeNotifier {
 
   // 載入裝置資訊
   Future<void> _loadDevice() async {
-    _device = await _databaseService.getDevice();
+    _device = await _storageService.getDevice();
     _isAuthenticated = _device != null;
-    notifyListeners();
   }
 
   // 載入本地菜單
   Future<void> _loadLocalMenu() async {
-    _menu = await _databaseService.getMenu();
-    notifyListeners();
+    _menu = await _storageService.getMenu();
   }
 
   // 檢查菜單更新
@@ -117,9 +116,8 @@ class AppProvider extends ChangeNotifier {
       final newMenu = await _apiService.getMenu(version: currentVersion);
       
       if (newMenu.version > currentVersion) {
-        await _databaseService.saveMenu(newMenu);
+        await _storageService.saveMenu(newMenu);
         _menu = newMenu;
-        notifyListeners();
       }
     } catch (e) {
       debugPrint('檢查菜單更新失敗: $e');
@@ -131,7 +129,7 @@ class AppProvider extends ChangeNotifier {
     if (!_isAuthenticated || !_isOnline) return;
     
     try {
-      final unsyncedOrders = await _databaseService.getUnsyncedOrders();
+      final unsyncedOrders = await _storageService.getUnsyncedOrders();
       
       if (unsyncedOrders.isNotEmpty) {
         // 分批同步，每批 20 筆
@@ -142,7 +140,7 @@ class AppProvider extends ChangeNotifier {
           
           // 標記為已同步
           for (final order in batch) {
-            await _databaseService.markOrderAsSynced(order.orderId);
+            await _storageService.markOrderAsSynced(order.orderId);
           }
         }
       }
@@ -159,15 +157,12 @@ class AppProvider extends ChangeNotifier {
     // 監聽網路狀態變化
     Connectivity().onConnectivityChanged.listen((result) {
       _isOnline = result != ConnectivityResult.none;
-      notifyListeners();
       
       // 網路恢復時同步訂單
       if (_isOnline) {
         _syncUnsyncedOrders();
       }
     });
-    
-    notifyListeners();
   }
 
   // 新增商品到訂單
@@ -244,7 +239,7 @@ class AppProvider extends ChangeNotifier {
       );
       
       // 儲存到本地資料庫
-      await _databaseService.insertOrder(order);
+      await _storageService.insertOrder(order);
       
       // 列印
       final success = await PrintService.simulatePrint(order);
@@ -289,7 +284,7 @@ class AppProvider extends ChangeNotifier {
     
     try {
       final newMenu = await _apiService.getMenu();
-      await _databaseService.saveMenu(newMenu);
+      await _storageService.saveMenu(newMenu);
       _menu = newMenu;
       notifyListeners();
       return true;
@@ -328,7 +323,7 @@ class AppProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    _databaseService.close();
+    _storageService.close();
     super.dispose();
   }
 } 

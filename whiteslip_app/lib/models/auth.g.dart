@@ -25,14 +25,16 @@ Map<String, dynamic> _$AuthRequestToJson(AuthRequest instance) =>
     <String, dynamic>{'deviceCode': instance.deviceCode};
 
 AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
-  jwt: json['jwt'] as String,
-  deviceId: json['deviceId'] as String,
-  expiresAt: DateTime.parse(json['expiresAt'] as String),
+  success: json['success'] as bool,
+  token: json['token'] as String,
+  message: json['message'] as String,
+  expiresAt: json['expiresAt'] as String,
 );
 
 Map<String, dynamic> _$AuthResponseToJson(AuthResponse instance) =>
     <String, dynamic>{
-      'jwt': instance.jwt,
-      'deviceId': instance.deviceId,
-      'expiresAt': instance.expiresAt.toIso8601String(),
+      'success': instance.success,
+      'token': instance.token,
+      'message': instance.message,
+      'expiresAt': instance.expiresAt,
     };

@@ -19,8 +19,9 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// 讀取連線字串，優先取環境變數 DB_CONN，其次 appsettings.json
-var connStr = Environment.GetEnvironmentVariable("DB_CONN")
+// 讀取連線字串，優先取環境變數，其次 appsettings.json
+var connStr = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
+    ?? Environment.GetEnvironmentVariable("DB_CONN")
     ?? builder.Configuration.GetConnectionString("Default");
 
 Console.WriteLine($"[啟動] 資料庫連線字串：{connStr}"); // 僅供開發測試用，正式環境請移除
@@ -76,7 +77,8 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .WithExposedHeaders("X-Trace-Id");
     });
 });
 
@@ -110,5 +112,8 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<WhiteSlipDbContext>();
     await DbInitializer.Initialize(context);
 }
+
+// 讓 Kestrel 對外監聽 0.0.0.0:5001
+builder.WebHost.UseUrls("http://0.0.0.0:5001");
 
 app.Run();

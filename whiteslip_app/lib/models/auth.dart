@@ -44,13 +44,15 @@ class AuthRequest {
 
 @JsonSerializable()
 class AuthResponse {
-  final String jwt;
-  final String deviceId;
-  final DateTime expiresAt;
+  final bool success;
+  final String token;
+  final String message;
+  final String expiresAt;
 
   AuthResponse({
-    required this.jwt,
-    required this.deviceId,
+    required this.success,
+    required this.token,
+    required this.message,
     required this.expiresAt,
   });
 

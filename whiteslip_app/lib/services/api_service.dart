@@ -5,7 +5,7 @@ import '../models/menu.dart';
 import '../models/auth.dart';
 
 class ApiService {
-  static const String _baseUrl = 'http://localhost:5000/api/v1';
+  static const String _baseUrl = 'http://localhost:5001/api/v1';
   late final Dio _dio;
   
   ApiService() {
@@ -51,7 +51,7 @@ class ApiService {
       
       // 儲存 JWT token
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('jwt_token', authResponse.jwt);
+      await prefs.setString('jwt_token', authResponse.token);
       
       return authResponse;
     } on DioException catch (e) {
@@ -73,10 +73,38 @@ class ApiService {
   // 訂單同步
   Future<void> syncOrders(List<Order> orders) async {
     try {
-      final ordersJson = orders.map((order) => order.toJson()).toList();
+      print('=== 開始同步訂單，數量: ${orders.length} ===');
+      
+      // 轉換為後端期望的格式
+      final ordersJson = orders.map((order) {
+        final businessDay = DateTime.parse(order.businessDay);
+        return {
+          'orderId': order.orderId,
+          'businessDay': businessDay.toIso8601String(),
+          'total': order.total,
+          'createdAt': order.createdAt.toIso8601String(),
+          'items': order.items.map((item) => {
+            'name': item.name,
+            'qty': item.qty,
+            'unitPrice': item.unitPrice,
+            'subtotal': item.subtotal,
+          }).toList(),
+        };
+      }).toList();
+
+      print('=== 同步訂單 payload ===');
+      print(ordersJson.toString());
+      print('=== payload 結束 ===');
+
       await _dio.post('/orders/bulk', data: ordersJson);
+      print('=== 同步訂單成功 ===');
     } on DioException catch (e) {
+      print('=== 同步訂單失敗: ${e.message} ===');
+      print('=== 錯誤詳情: ${e.response?.data} ===');
       throw _handleDioError(e);
+    } catch (e) {
+      print('=== 同步訂單其他錯誤: $e ===');
+      rethrow;
     }
   }
 

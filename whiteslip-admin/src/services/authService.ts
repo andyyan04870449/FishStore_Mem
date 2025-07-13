@@ -13,6 +13,21 @@ export interface AuthService {
 class AuthServiceImpl implements AuthService {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await api.post<LoginResponse>(API_ENDPOINTS.LOGIN, credentials);
+    
+    // 如果登入成功，儲存用戶資訊
+    if (response.success && response.token) {
+      localStorage.setItem('token', response.token);
+      
+      // 建立用戶資訊物件
+      const user: User = {
+        id: '1', // 暫時使用固定值
+        account: credentials.account,
+        role: response.role as 'Admin' | 'Manager' | 'Staff',
+      };
+      
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+    
     return response;
   }
 
