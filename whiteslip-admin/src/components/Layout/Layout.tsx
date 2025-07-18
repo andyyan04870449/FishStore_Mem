@@ -81,6 +81,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       label: '系統設定',
       onClick: () => navigate(ROUTES.SETTINGS),
     }] : []),
+    ...(role === 'Admin' ? [{
+      key: ROUTES.LOGS,
+      icon: <UserOutlined />,
+      label: '系統日誌',
+      onClick: () => navigate(ROUTES.LOGS),
+    }] : []),
   ];
 
   return (

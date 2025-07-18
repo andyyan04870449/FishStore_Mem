@@ -18,15 +18,19 @@ const LoginPage: React.FC = () => {
       const response = await authService.login(values);
 
       if (response.success) {
-        dispatch(loginSuccess({
-          user: {
-            id: '1',
-            account: values.account,
-            role: response.role as 'Admin' | 'Manager' | 'Staff',
-          },
-          token: response.token,
-        }));
-        message.success('登入成功');
+        // 從 localStorage 取得 authService 保存的用戶資訊
+        const userStr = localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        
+        if (user) {
+          dispatch(loginSuccess({
+            user,
+            token: response.token,
+          }));
+          message.success('登入成功');
+        } else {
+          dispatch(loginFailure('用戶資訊初始化失敗'));
+        }
       } else {
         dispatch(loginFailure(response.message || '登入失敗'));
       }

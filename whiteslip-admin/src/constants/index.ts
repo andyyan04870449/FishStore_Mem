@@ -31,6 +31,7 @@ export const ROUTES = {
   USERS: '/users',
   SETTINGS: '/settings',
   AUTH_MANAGEMENT: '/auth-management',
+  LOGS: '/logs',
 } as const;
 
 // 本地儲存鍵值
