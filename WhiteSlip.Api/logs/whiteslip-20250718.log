@@ -232,3 +232,18 @@ System.IO.IOException: Failed to bind to address http://0.0.0.0:5001: address al
 2025-07-18 13:46:40.029 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 0.1122 ms
 2025-07-18 13:46:40.044 +08:00 [WRN] 停用裝置嘗試訪問 API: "6569e009-8d16-4a1b-84e2-5a1555c08715", GYQML0
 2025-07-18 13:46:40.044 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 403 in 13.6244 ms
+2025-07-18 13:49:46.194 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.3509 ms
+2025-07-18 13:49:46.234 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 37.0397 ms
+2025-07-18 13:50:13.944 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.6113 ms
+2025-07-18 13:50:13.993 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 45.6019 ms
+2025-07-18 13:51:35.947 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 5.0338 ms
+2025-07-18 13:51:35.990 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 35.4313 ms
+2025-07-18 13:51:36.957 +08:00 [INF] HTTP OPTIONS /api/v1/users responded 204 in 0.0451 ms
+2025-07-18 13:51:37.002 +08:00 [INF] HTTP GET /api/v1/users responded 200 in 42.7618 ms
+2025-07-18 13:51:37.892 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 8.6165 ms
+2025-07-18 13:51:39.963 +08:00 [INF] HTTP GET /api/v1/users responded 200 in 3.3526 ms
+2025-07-18 13:51:40.463 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.0465 ms
+2025-07-18 13:51:40.474 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 9.5365 ms
+2025-07-18 13:51:40.808 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0610 ms
+2025-07-18 13:51:40.810 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:51:40.820 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 11.1197 ms

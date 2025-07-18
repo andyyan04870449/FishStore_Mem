@@ -151,12 +151,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('菜單更新失敗'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        // 檢查是否因為認證問題失敗
+        if (!appProvider.isAuthenticated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('認證已失效，請重新登入'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('菜單更新失敗，請檢查網路連線'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     }
   }

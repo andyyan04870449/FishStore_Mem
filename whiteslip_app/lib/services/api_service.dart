@@ -30,8 +30,9 @@ class ApiService {
         handler.next(options);
       },
       onError: (error, handler) async {
-        // 處理 401 錯誤，清除過期 token
-        if (error.response?.statusCode == 401) {
+        // 處理 401/403 錯誤，清除過期 token
+        if (error.response?.statusCode == 401 || error.response?.statusCode == 403) {
+          debugPrint('權杖失效，清除本地權杖: ${error.response?.statusCode}');
           await _clearToken();
           // 通知權杖過期
           _onTokenExpired?.call();
@@ -185,7 +186,7 @@ class ApiService {
           case 401:
             return Exception('認證失敗，請重新登入');
           case 403:
-            return Exception('權限不足');
+            return Exception('權限不足或裝置已停用');
           case 404:
             return Exception('資源不存在');
           case 500:

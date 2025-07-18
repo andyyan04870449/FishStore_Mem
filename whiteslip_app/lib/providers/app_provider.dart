@@ -180,8 +180,12 @@ class AppProvider extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('檢查菜單更新失敗: $e');
-      // 如果是認證錯誤，清除認證狀態
-      if (e.toString().contains('認證失敗') || e.toString().contains('401')) {
+      // 如果是認證錯誤或權限錯誤，清除認證狀態
+      if (e.toString().contains('認證失敗') || 
+          e.toString().contains('401') || 
+          e.toString().contains('403') ||
+          e.toString().contains('權限不足') ||
+          e.toString().contains('裝置已停用')) {
         await _clearAuthentication();
       }
     }
@@ -209,8 +213,12 @@ class AppProvider extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('同步訂單失敗: $e');
-      // 如果是認證錯誤，清除認證狀態
-      if (e.toString().contains('認證失敗') || e.toString().contains('401')) {
+      // 如果是認證錯誤或權限錯誤，清除認證狀態
+      if (e.toString().contains('認證失敗') || 
+          e.toString().contains('401') || 
+          e.toString().contains('403') ||
+          e.toString().contains('權限不足') ||
+          e.toString().contains('裝置已停用')) {
         await _clearAuthentication();
       }
     }
@@ -316,8 +324,13 @@ class AppProvider extends ChangeNotifier {
         clearOrder();
         
         // 嘗試同步到後端
-        if (_isOnline) {
-          await _syncUnsyncedOrders();
+        if (_isOnline && _isAuthenticated) {
+          try {
+            await _syncUnsyncedOrders();
+          } catch (e) {
+            debugPrint('同步訂單失敗: $e');
+            // 同步失敗不影響列印成功
+          }
         }
       }
       
@@ -339,6 +352,14 @@ class AppProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       debugPrint('重新列印失敗: $e');
+      // 如果是認證錯誤或權限錯誤，清除認證狀態
+      if (e.toString().contains('認證失敗') || 
+          e.toString().contains('401') || 
+          e.toString().contains('403') ||
+          e.toString().contains('權限不足') ||
+          e.toString().contains('裝置已停用')) {
+        await _clearAuthentication();
+      }
       return false;
     }
   }
@@ -357,6 +378,14 @@ class AppProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       debugPrint('更新菜單失敗: $e');
+      // 如果是認證錯誤或權限錯誤，清除認證狀態
+      if (e.toString().contains('認證失敗') || 
+          e.toString().contains('401') || 
+          e.toString().contains('403') ||
+          e.toString().contains('權限不足') ||
+          e.toString().contains('裝置已停用')) {
+        await _clearAuthentication();
+      }
       return false;
     } finally {
       _setMenuLoading(false);
