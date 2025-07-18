@@ -1,0 +1,44 @@
+2025-07-18 13:16:12.021 +08:00 [INF] HTTP GET /healthz responded 200 in 32.1912 ms
+2025-07-18 13:16:18.362 +08:00 [INF] HTTP GET /healthz responded 200 in 156.7333 ms
+2025-07-18 13:17:11.821 +08:00 [INF] HTTP GET /healthz responded 200 in 27.1741 ms
+2025-07-18 13:17:11.881 +08:00 [INF] HTTP GET /healthz responded 200 in 2.6024 ms
+2025-07-18 13:17:32.175 +08:00 [INF] HTTP GET /healthz responded 200 in 31.8306 ms
+2025-07-18 13:17:35.105 +08:00 [INF] HTTP GET /healthz responded 200 in 2.2191 ms
+2025-07-18 13:17:35.219 +08:00 [INF] HTTP GET /healthz responded 200 in 2.2055 ms
+2025-07-18 13:17:35.240 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 401 in 5.0015 ms
+2025-07-18 13:17:35.257 +08:00 [INF] HTTP GET /api/v1/menu responded 401 in 1.4083 ms
+2025-07-18 13:17:45.001 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 1.3100 ms
+2025-07-18 13:17:45.050 +08:00 [INF] 使用者登入請求: admin
+2025-07-18 13:17:45.127 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 401 in 121.9384 ms
+2025-07-18 13:17:53.650 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 0.2793 ms
+2025-07-18 13:17:53.656 +08:00 [INF] 使用者登入請求: admin
+2025-07-18 13:17:53.723 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 70.8956 ms
+2025-07-18 13:17:53.787 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.0776 ms
+2025-07-18 13:17:53.836 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 48.2689 ms
+2025-07-18 13:17:53.838 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0516 ms
+2025-07-18 13:17:53.842 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:17:53.854 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 15.6342 ms
+2025-07-18 13:18:00.262 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.1518 ms
+2025-07-18 13:18:00.274 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:18:00.358 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 93.9341 ms
+2025-07-18 13:18:01.411 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:18:01.428 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 17.6948 ms
+2025-07-18 13:18:14.471 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 1.1520 ms
+2025-07-18 13:18:14.487 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 12.5431 ms
+2025-07-18 13:18:14.489 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0333 ms
+2025-07-18 13:18:14.490 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:18:14.491 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 2.4373 ms
+2025-07-18 13:22:28.595 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 2.4900 ms
+2025-07-18 13:22:28.604 +08:00 [INF] 使用者登入請求: admin
+2025-07-18 13:22:28.637 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 38.9735 ms
+2025-07-18 13:22:28.704 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.0952 ms
+2025-07-18 13:22:28.719 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 14.3989 ms
+2025-07-18 13:22:28.721 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0399 ms
+2025-07-18 13:22:28.722 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:22:28.726 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 4.4484 ms
+2025-07-18 13:22:31.644 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.1415 ms
+2025-07-18 13:22:31.701 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 56.1392 ms
+2025-07-18 13:22:38.644 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.1192 ms
+2025-07-18 13:22:38.651 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-18 13:22:38.717 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-18 13:22:38.720 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 74.3536 ms

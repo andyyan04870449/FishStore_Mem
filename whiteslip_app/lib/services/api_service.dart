@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart';
 import '../models/order.dart';
 import '../models/menu.dart';
 import '../models/auth.dart';
@@ -7,6 +8,9 @@ import '../models/auth.dart';
 class ApiService {
   static const String _baseUrl = 'http://localhost:5001/api/v1';
   late final Dio _dio;
+  
+  // 權杖過期回調
+  VoidCallback? _onTokenExpired;
   
   ApiService() {
     _dio = Dio(BaseOptions(
@@ -25,14 +29,21 @@ class ApiService {
         }
         handler.next(options);
       },
-      onError: (error, handler) {
+      onError: (error, handler) async {
         // 處理 401 錯誤，清除過期 token
         if (error.response?.statusCode == 401) {
-          _clearToken();
+          await _clearToken();
+          // 通知權杖過期
+          _onTokenExpired?.call();
         }
         handler.next(error);
       },
     ));
+  }
+
+  // 設置權杖過期回調
+  void setTokenExpiredCallback(VoidCallback callback) {
+    _onTokenExpired = callback;
   }
 
   Future<void> _clearToken() async {
@@ -56,6 +67,17 @@ class ApiService {
       return authResponse;
     } on DioException catch (e) {
       throw _handleDioError(e);
+    }
+  }
+
+  // 檢查權杖是否有效
+  Future<bool> isTokenValid() async {
+    try {
+      // 嘗試呼叫一個需要認證的 API
+      await _dio.get('/menu', queryParameters: {'version': 0});
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 

@@ -1,0 +1,6 @@
+Building...
+[啟動] 資料庫連線字串：Host=localhost;Port=5432;Username=white;Password=slip;Database=wsl
+[13:17:11 INF] HTTP GET /healthz responded 200 in 27.1741 ms
+[13:17:11 INF] HTTP GET /healthz responded 200 in 27.1741 ms
+[13:17:11 INF] HTTP GET /healthz responded 200 in 2.6024 ms
+[13:17:11 INF] HTTP GET /healthz responded 200 in 2.6024 ms

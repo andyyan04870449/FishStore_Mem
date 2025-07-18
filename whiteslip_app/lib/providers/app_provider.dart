@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/order.dart';
 import '../models/menu.dart';
 import '../models/auth.dart';
@@ -15,6 +16,7 @@ class AppProvider extends ChangeNotifier {
   Device? _device;
   bool _isAuthenticated = false;
   bool _isLoading = false;
+  bool _isTokenValidating = false;
 
   // 菜單狀態
   Menu? _menu;
@@ -31,6 +33,7 @@ class AppProvider extends ChangeNotifier {
   Device? get device => _device;
   bool get isAuthenticated => _isAuthenticated;
   bool get isLoading => _isLoading;
+  bool get isTokenValidating => _isTokenValidating;
   Menu? get menu => _menu;
   bool get isMenuLoading => _isMenuLoading;
   List<OrderItem> get currentOrderItems => _currentOrderItems;
@@ -48,11 +51,17 @@ class AppProvider extends ChangeNotifier {
     _isLoading = true;
     
     try {
+      // 設置權杖過期回調
+      _apiService.setTokenExpiredCallback(() async {
+        debugPrint('權杖過期，清除認證狀態');
+        await _clearAuthentication();
+      });
+      
       // 檢查網路連線
       await _checkConnectivity();
       
-      // 載入本地裝置資訊
-      await _loadDevice();
+      // 載入本地裝置資訊並驗證權杖
+      await _loadAndValidateDevice();
       
       // 載入本地菜單
       await _loadLocalMenu();
@@ -96,10 +105,59 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
-  // 載入裝置資訊
-  Future<void> _loadDevice() async {
+  // 載入裝置資訊並驗證權杖
+  Future<void> _loadAndValidateDevice() async {
     _device = await _storageService.getDevice();
-    _isAuthenticated = _device != null;
+    
+    if (_device != null && _device!.jwt.isNotEmpty) {
+      // 有權杖，驗證是否有效
+      await _validateToken();
+    } else {
+      _isAuthenticated = false;
+    }
+  }
+
+  // 驗證權杖有效性
+  Future<void> _validateToken() async {
+    if (_isTokenValidating) return;
+    
+    _isTokenValidating = true;
+    notifyListeners();
+    
+    try {
+      // 使用新的權杖驗證方法
+      final isValid = await _apiService.isTokenValid();
+      
+      if (isValid) {
+        _isAuthenticated = true;
+        debugPrint('權杖驗證成功');
+      } else {
+        await _clearAuthentication();
+      }
+      
+    } catch (e) {
+      // 權杖無效，清除本地資料
+      debugPrint('權杖驗證失敗: $e');
+      await _clearAuthentication();
+    } finally {
+      _isTokenValidating = false;
+      notifyListeners();
+    }
+  }
+
+  // 清除認證資料
+  Future<void> _clearAuthentication() async {
+    _device = null;
+    _isAuthenticated = false;
+    
+    // 清除 SharedPreferences 中的權杖
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('jwt_token');
+    
+    // 清除本地裝置資訊
+    await _storageService.clearDevice();
+    
+    debugPrint('認證資料已清除');
   }
 
   // 載入本地菜單
@@ -118,9 +176,14 @@ class AppProvider extends ChangeNotifier {
       if (newMenu.version > currentVersion) {
         await _storageService.saveMenu(newMenu);
         _menu = newMenu;
+        notifyListeners();
       }
     } catch (e) {
       debugPrint('檢查菜單更新失敗: $e');
+      // 如果是認證錯誤，清除認證狀態
+      if (e.toString().contains('認證失敗') || e.toString().contains('401')) {
+        await _clearAuthentication();
+      }
     }
   }
 
@@ -146,6 +209,10 @@ class AppProvider extends ChangeNotifier {
       }
     } catch (e) {
       debugPrint('同步訂單失敗: $e');
+      // 如果是認證錯誤，清除認證狀態
+      if (e.toString().contains('認證失敗') || e.toString().contains('401')) {
+        await _clearAuthentication();
+      }
     }
   }
 
@@ -298,8 +365,7 @@ class AppProvider extends ChangeNotifier {
 
   // 登出
   Future<void> logout() async {
-    _device = null;
-    _isAuthenticated = false;
+    await _clearAuthentication();
     _menu = null;
     _currentOrderItems.clear();
     notifyListeners();

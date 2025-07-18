@@ -29,13 +29,33 @@ class _HomeScreenState extends State<HomeScreen> {
         _now = DateTime.now();
       });
     });
+
+    // 監聽認證狀態變化
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final appProvider = context.read<AppProvider>();
+      appProvider.addListener(_onAuthStateChanged);
+    });
   }
 
   @override
   void dispose() {
     _timer?.cancel();
     _searchController.dispose();
+    
+    // 移除認證狀態監聽
+    final appProvider = context.read<AppProvider>();
+    appProvider.removeListener(_onAuthStateChanged);
+    
     super.dispose();
+  }
+
+  void _onAuthStateChanged() {
+    final appProvider = context.read<AppProvider>();
+    
+    // 如果未認證且不在載入中，導向登入頁面
+    if (!appProvider.isAuthenticated && !appProvider.isLoading && mounted) {
+      Navigator.of(context).pushReplacementNamed('/login');
+    }
   }
 
   List<MapEntry<MenuItem, String>> _getFilteredItems() {

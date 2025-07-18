@@ -66,12 +66,20 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // 使用 addPostFrameCallback 避免在 build 階段調用 notifyListeners
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    _initializeApp();
+      _initializeApp();
     });
   }
 
   Future<void> _initializeApp() async {
     final appProvider = context.read<AppProvider>();
+    
+    // 監聽認證狀態變化
+    appProvider.addListener(() {
+      if (mounted && !appProvider.isAuthenticated && !appProvider.isLoading) {
+        // 如果未認證且不在載入中，導向登入頁面
+        Navigator.of(context).pushReplacementNamed('/login');
+      }
+    });
     
     // 初始化應用程式
     await appProvider.initialize();

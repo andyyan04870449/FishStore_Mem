@@ -9,6 +9,7 @@ import '../models/auth.dart';
 abstract class StorageService {
   Future<void> saveDevice(Device device);
   Future<Device?> getDevice();
+  Future<void> clearDevice();
   Future<void> saveMenu(Menu menu);
   Future<Menu?> getMenu();
   Future<void> insertOrder(Order order);
@@ -49,6 +50,12 @@ class WebStorageService implements StorageService {
     } catch (e) {
       return null;
     }
+  }
+
+  @override
+  Future<void> clearDevice() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_deviceKey);
   }
 
   @override
@@ -277,6 +284,11 @@ class MobileStorageService implements StorageService {
       jwt: deviceData['jwt'] ?? '',
       lastSeen: DateTime.parse(deviceData['lastSeen'] ?? DateTime.now().toIso8601String()),
     );
+  }
+
+  @override
+  Future<void> clearDevice() async {
+    _storage.remove('device');
   }
 
   @override
