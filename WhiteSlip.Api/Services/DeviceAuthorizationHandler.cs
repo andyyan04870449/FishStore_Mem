@@ -27,17 +27,21 @@ public class DeviceAuthorizationHandler : AuthorizationHandler<DeviceAuthorizati
         AuthorizationHandlerContext context, 
         DeviceAuthorizationRequirement requirement)
     {
+        _logger.LogInformation("=== 裝置授權處理器被呼叫 ===");
+        
         // 檢查是否為裝置認證（Device 角色）
         var deviceRole = context.User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+        var deviceIdClaim = context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        
+        _logger.LogInformation("授權檢查: Role={Role}, DeviceId={DeviceId}", deviceRole, deviceIdClaim);
+        
         if (deviceRole != "Device")
         {
-            // 不是裝置認證，直接通過（讓其他授權處理器處理）
+            _logger.LogInformation("非裝置認證，跳過裝置狀態檢查");
             context.Succeed(requirement);
             return;
         }
 
-        // 獲取裝置 ID
-        var deviceIdClaim = context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(deviceIdClaim) || !Guid.TryParse(deviceIdClaim, out var deviceId))
         {
             _logger.LogWarning("無效的裝置 ID: {DeviceId}", deviceIdClaim);
@@ -59,23 +63,26 @@ public class DeviceAuthorizationHandler : AuthorizationHandler<DeviceAuthorizati
                 return;
             }
 
+            _logger.LogInformation("裝置狀態檢查: DeviceId={DeviceId}, DeviceCode={DeviceCode}, Status={Status}", 
+                deviceId, device.DeviceCode, device.Status);
+
             // 檢查裝置狀態
             if (device.Status == DeviceStatus.Disabled)
             {
-                _logger.LogWarning("停用裝置嘗試訪問 API: {DeviceId}, {DeviceCode}", deviceId, device.DeviceCode);
+                _logger.LogWarning("❌ 停用裝置嘗試訪問 API: {DeviceId}, {DeviceCode}", deviceId, device.DeviceCode);
                 context.Fail();
                 return;
             }
 
             if (device.Status == DeviceStatus.Deleted)
             {
-                _logger.LogWarning("已刪除裝置嘗試訪問 API: {DeviceId}, {DeviceCode}", deviceId, device.DeviceCode);
+                _logger.LogWarning("❌ 已刪除裝置嘗試訪問 API: {DeviceId}, {DeviceCode}", deviceId, device.DeviceCode);
                 context.Fail();
                 return;
             }
 
             // 裝置狀態正常，授權通過
-            _logger.LogDebug("裝置授權通過: {DeviceId}, {DeviceCode}, Status={Status}", 
+            _logger.LogInformation("✅ 裝置授權通過: {DeviceId}, {DeviceCode}, Status={Status}", 
                 deviceId, device.DeviceCode, device.Status);
             context.Succeed(requirement);
         }

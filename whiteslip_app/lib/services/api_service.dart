@@ -76,7 +76,17 @@ class ApiService {
       // 嘗試呼叫一個需要認證的 API
       await _dio.get('/menu', queryParameters: {'version': 0});
       return true;
+    } on DioException catch (e) {
+      // 檢查是否是認證或權限錯誤
+      if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
+        print('權杖驗證失敗: ${e.response?.statusCode} - ${e.response?.data}');
+        return false;
+      }
+      // 其他錯誤（如網路錯誤）不影響權杖有效性判斷
+      print('權杖驗證時發生其他錯誤: ${e.message}');
+      return true; // 假設權杖仍然有效
     } catch (e) {
+      print('權杖驗證時發生未知錯誤: $e');
       return false;
     }
   }

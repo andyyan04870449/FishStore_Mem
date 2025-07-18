@@ -94,3 +94,141 @@
 2025-07-18 13:34:52.265 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0975 ms
 2025-07-18 13:34:52.268 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
 2025-07-18 13:34:52.275 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 8.7506 ms
+2025-07-18 13:40:53.609 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 0.9944 ms
+2025-07-18 13:40:53.620 +08:00 [INF] 批次訂單上傳: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Count=3
+2025-07-18 13:40:53.715 +08:00 [INF] 批次訂單處理完成: 成功=1, 重複=2, 錯誤=0
+2025-07-18 13:40:53.715 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 200 in 104.1660 ms
+2025-07-18 13:41:02.325 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 0.0605 ms
+2025-07-18 13:41:02.331 +08:00 [INF] 使用者登入請求: admin
+2025-07-18 13:41:02.340 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 13.0296 ms
+2025-07-18 13:41:02.405 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.0622 ms
+2025-07-18 13:41:02.409 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 3.6513 ms
+2025-07-18 13:41:02.414 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0458 ms
+2025-07-18 13:41:02.415 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:41:02.421 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 6.2112 ms
+2025-07-18 13:41:04.963 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0512 ms
+2025-07-18 13:41:04.965 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:41:04.972 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 8.5928 ms
+2025-07-18 13:41:07.813 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0422 ms
+2025-07-18 13:41:07.823 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 8.3463 ms
+2025-07-18 13:41:12.402 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/enable responded 204 in 0.0633 ms
+2025-07-18 13:41:12.425 +08:00 [INF] 成功啟用裝置: GYQML0
+2025-07-18 13:41:12.428 +08:00 [INF] HTTP PUT /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/enable responded 200 in 24.2368 ms
+2025-07-18 13:41:12.432 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.1557 ms
+2025-07-18 13:41:16.084 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/e2fae503-ee06-453e-858f-bb0f6c846fe6/enable responded 204 in 0.0793 ms
+2025-07-18 13:41:16.089 +08:00 [INF] 成功啟用裝置: 6SH27M
+2025-07-18 13:41:16.090 +08:00 [INF] HTTP PUT /api/v1/auth/devices/e2fae503-ee06-453e-858f-bb0f6c846fe6/enable responded 200 in 4.3601 ms
+2025-07-18 13:41:16.093 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0556 ms
+2025-07-18 13:41:16.097 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.6318 ms
+2025-07-18 13:41:17.553 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 204 in 0.0537 ms
+2025-07-18 13:41:17.560 +08:00 [INF] 成功停用裝置: GYQML0
+2025-07-18 13:41:17.560 +08:00 [INF] HTTP PUT /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 200 in 6.1400 ms
+2025-07-18 13:41:17.565 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.2801 ms
+2025-07-18 13:41:19.117 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/e2fae503-ee06-453e-858f-bb0f6c846fe6/disable responded 204 in 0.0552 ms
+2025-07-18 13:41:19.122 +08:00 [INF] 成功停用裝置: 6SH27M
+2025-07-18 13:41:19.122 +08:00 [INF] HTTP PUT /api/v1/auth/devices/e2fae503-ee06-453e-858f-bb0f6c846fe6/disable responded 200 in 4.4234 ms
+2025-07-18 13:41:19.129 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.7416 ms
+2025-07-18 13:41:24.221 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 1.0368 ms
+2025-07-18 13:41:24.229 +08:00 [INF] 批次訂單上傳: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Count=4
+2025-07-18 13:41:24.237 +08:00 [INF] 批次訂單處理完成: 成功=1, 重複=3, 錯誤=0
+2025-07-18 13:41:24.238 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 200 in 14.3258 ms
+2025-07-18 13:41:27.224 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0516 ms
+2025-07-18 13:41:27.228 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:41:27.253 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 27.2818 ms
+2025-07-18 13:41:48.841 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.4745 ms
+2025-07-18 13:41:48.845 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-18 13:41:48.860 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 17.9648 ms
+2025-07-18 13:41:53.359 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0799 ms
+2025-07-18 13:41:53.387 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 25.6220 ms
+2025-07-18 13:41:57.491 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 1.2906 ms
+2025-07-18 13:41:57.499 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-18 13:41:57.508 +08:00 [INF] 裝置重新認證: GYQML0
+2025-07-18 13:41:57.510 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 14.6924 ms
+2025-07-18 13:41:58.799 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0588 ms
+2025-07-18 13:41:58.800 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-18 13:41:58.802 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 2.1495 ms
+2025-07-18 13:43:05.452 +08:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://0.0.0.0:5001: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use
+ ---> System.Net.Sockets.SocketException (48): Address already in use
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-07-18 13:45:44.136 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 2.9514 ms
+2025-07-18 13:45:44.283 +08:00 [WRN] 停用裝置嘗試訪問 API: "6569e009-8d16-4a1b-84e2-5a1555c08715", GYQML0
+2025-07-18 13:45:44.287 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 403 in 102.8097 ms
+2025-07-18 13:45:48.864 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.7130 ms
+2025-07-18 13:45:48.899 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:45:49.052 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 186.2105 ms
+2025-07-18 13:45:53.534 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:45:53.544 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 15.5364 ms
+2025-07-18 13:46:00.411 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.9198 ms
+2025-07-18 13:46:00.436 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-18 13:46:00.473 +08:00 [WRN] 停用裝置嘗試認證: GYQML0
+2025-07-18 13:46:00.477 +08:00 [INF] HTTP POST /api/v1/auth responded 401 in 61.9603 ms
+2025-07-18 13:46:09.540 +08:00 [INF] HTTP OPTIONS /api/v1/auth/user-login responded 204 in 0.1483 ms
+2025-07-18 13:46:09.554 +08:00 [INF] 使用者登入請求: admin
+2025-07-18 13:46:09.597 +08:00 [INF] HTTP POST /api/v1/auth/user-login responded 200 in 52.7469 ms
+2025-07-18 13:46:09.660 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.1403 ms
+2025-07-18 13:46:09.683 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 21.9188 ms
+2025-07-18 13:46:09.685 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0876 ms
+2025-07-18 13:46:09.689 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:46:09.700 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 13.7808 ms
+2025-07-18 13:46:11.900 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.1557 ms
+2025-07-18 13:46:11.933 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 30.8993 ms
+2025-07-18 13:46:15.194 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/enable responded 204 in 0.1041 ms
+2025-07-18 13:46:15.282 +08:00 [INF] 成功啟用裝置: GYQML0
+2025-07-18 13:46:15.283 +08:00 [INF] HTTP PUT /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/enable responded 200 in 85.7003 ms
+2025-07-18 13:46:15.286 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.2199 ms
+2025-07-18 13:46:17.082 +08:00 [INF] HTTP OPTIONS /api/v1/auth responded 204 in 0.5154 ms
+2025-07-18 13:46:17.088 +08:00 [INF] 裝置認證請求: GYQML0
+2025-07-18 13:46:17.094 +08:00 [INF] 裝置認證成功: GYQML0, Status="Active"
+2025-07-18 13:46:17.097 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 11.6003 ms
+2025-07-18 13:46:21.228 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 204 in 0.1047 ms
+2025-07-18 13:46:21.244 +08:00 [INF] 成功停用裝置: GYQML0
+2025-07-18 13:46:21.244 +08:00 [INF] HTTP PUT /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 200 in 14.9666 ms
+2025-07-18 13:46:21.250 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0747 ms
+2025-07-18 13:46:21.255 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 3.0741 ms
+2025-07-18 13:46:22.328 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0646 ms
+2025-07-18 13:46:22.331 +08:00 [WRN] 停用裝置嘗試訪問 API: "6569e009-8d16-4a1b-84e2-5a1555c08715", GYQML0
+2025-07-18 13:46:22.331 +08:00 [INF] HTTP GET /api/v1/menu responded 403 in 1.8263 ms
+2025-07-18 13:46:23.435 +08:00 [WRN] 停用裝置嘗試訪問 API: "6569e009-8d16-4a1b-84e2-5a1555c08715", GYQML0
+2025-07-18 13:46:23.439 +08:00 [INF] HTTP GET /api/v1/menu responded 403 in 35.5533 ms
+2025-07-18 13:46:26.378 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/enable responded 204 in 0.1175 ms
+2025-07-18 13:46:26.385 +08:00 [INF] 成功啟用裝置: GYQML0
+2025-07-18 13:46:26.386 +08:00 [INF] HTTP PUT /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/enable responded 200 in 6.2162 ms
+2025-07-18 13:46:26.389 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0628 ms
+2025-07-18 13:46:26.394 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 4.1764 ms
+2025-07-18 13:46:27.879 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.2657 ms
+2025-07-18 13:46:27.899 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=null
+2025-07-18 13:46:27.903 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 22.0358 ms
+2025-07-18 13:46:33.498 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 0.2910 ms
+2025-07-18 13:46:33.515 +08:00 [INF] 批次訂單上傳: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Count=6
+2025-07-18 13:46:33.592 +08:00 [INF] 批次訂單處理完成: 成功=2, 重複=4, 錯誤=0
+2025-07-18 13:46:33.595 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 200 in 95.0868 ms
+2025-07-18 13:46:34.944 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 204 in 0.0744 ms
+2025-07-18 13:46:34.952 +08:00 [INF] 成功停用裝置: GYQML0
+2025-07-18 13:46:34.953 +08:00 [INF] HTTP PUT /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 200 in 7.1285 ms
+2025-07-18 13:46:34.955 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0532 ms
+2025-07-18 13:46:34.960 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 3.1665 ms
+2025-07-18 13:46:40.029 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 0.1122 ms
+2025-07-18 13:46:40.044 +08:00 [WRN] 停用裝置嘗試訪問 API: "6569e009-8d16-4a1b-84e2-5a1555c08715", GYQML0
+2025-07-18 13:46:40.044 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 403 in 13.6244 ms
