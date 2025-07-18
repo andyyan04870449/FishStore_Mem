@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // 使用 addPostFrameCallback 避免在 build 階段調用 notifyListeners
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializeApp();
+    _initializeApp();
     });
   }
 

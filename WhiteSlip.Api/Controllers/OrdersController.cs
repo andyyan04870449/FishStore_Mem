@@ -168,10 +168,10 @@ public class OrdersController : ControllerBase
                 .ToListAsync();
 
             var result = orders.Select(o => new
-            {
-                o.OrderId,
-                o.BusinessDay,
-                o.Total,
+                {
+                    o.OrderId,
+                    o.BusinessDay,
+                    o.Total,
                 o.CreatedAt,
                 Items = o.OrderItems.Select(oi => new
                 {
@@ -185,8 +185,8 @@ public class OrdersController : ControllerBase
             return Ok(new
             {
                 data = result,
-                page,
-                pageSize,
+                    page,
+                    pageSize,
                 total = totalCount
             });
         }

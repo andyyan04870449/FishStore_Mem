@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
+import 'dart:async';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,8 +15,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final _deviceCodeController = TextEditingController();
   bool _isLoading = false;
 
+  DateTime _now = DateTime.now();
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _now = DateTime.now();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _now = DateTime.now();
+      });
+    });
+  }
+
   @override
   void dispose() {
+    _timer?.cancel();
     _deviceCodeController.dispose();
     super.dispose();
   }
@@ -85,7 +101,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       size: 80,
                       color: Theme.of(context).primaryColor,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.access_time, color: Colors.blueGrey, size: 20),
+                        const SizedBox(width: 8),
+                        Text(
+                          _now.toLocal().toString().substring(0, 19),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
                     Text(
                       '白單機點餐系統',
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(

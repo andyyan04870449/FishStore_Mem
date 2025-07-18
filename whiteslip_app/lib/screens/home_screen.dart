@@ -4,6 +4,7 @@ import '../providers/app_provider.dart';
 import '../models/menu.dart';
 import '../widgets/menu_item_card.dart';
 import '../widgets/order_summary.dart';
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,8 +17,23 @@ class _HomeScreenState extends State<HomeScreen> {
   String _selectedCategory = '全部';
   final TextEditingController _searchController = TextEditingController();
 
+  DateTime _now = DateTime.now();
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _now = DateTime.now();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _now = DateTime.now();
+      });
+    });
+  }
+
   @override
   void dispose() {
+    _timer?.cancel();
     _searchController.dispose();
     super.dispose();
   }
@@ -174,7 +190,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Consumer<AppProvider>(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.access_time, color: Colors.blueGrey),
+                const SizedBox(width: 8),
+                Text(
+                  _now.toLocal().toString().substring(0, 19),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Consumer<AppProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
             return const Center(
@@ -270,12 +303,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         itemCount: _getFilteredItems().length,
                         itemBuilder: (context, index) {
-                          final entry = _getFilteredItems()[index];
-                          final item = entry.key;
-                          final category = entry.value;
+                                final entry = _getFilteredItems()[index];
+                                final item = entry.key;
+                                final category = entry.value;
                           return MenuItemCard(
                             menuItem: item,
-                            category: category,
+                                  category: category,
                             onTap: () => provider.addItemToOrder(item),
                           );
                         },
@@ -295,6 +328,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         },
+            ),
+          ),
+        ],
       ),
     );
   }
