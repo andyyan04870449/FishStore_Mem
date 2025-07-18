@@ -42,3 +42,55 @@
 2025-07-18 13:22:38.651 +08:00 [INF] 裝置認證請求: GYQML0
 2025-07-18 13:22:38.717 +08:00 [INF] 裝置重新認證: GYQML0
 2025-07-18 13:22:38.720 +08:00 [INF] HTTP POST /api/v1/auth responded 200 in 74.3536 ms
+2025-07-18 13:33:18.169 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 2.2537 ms
+2025-07-18 13:33:18.219 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=0
+2025-07-18 13:33:18.278 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 105.1757 ms
+2025-07-18 13:33:45.334 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.7694 ms
+2025-07-18 13:33:45.343 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=0
+2025-07-18 13:33:45.347 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 6.7223 ms
+2025-07-18 13:33:45.354 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0343 ms
+2025-07-18 13:33:45.356 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=4
+2025-07-18 13:33:45.371 +08:00 [INF] HTTP GET /api/v1/menu responded 304 in 15.8230 ms
+2025-07-18 13:33:54.745 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 204 in 1.4968 ms
+2025-07-18 13:33:54.805 +08:00 [INF] 成功停用裝置: GYQML0
+2025-07-18 13:33:54.808 +08:00 [INF] HTTP PUT /api/v1/auth/devices/6569e009-8d16-4a1b-84e2-5a1555c08715/disable responded 200 in 57.5860 ms
+2025-07-18 13:33:54.810 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0710 ms
+2025-07-18 13:33:54.820 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 8.9611 ms
+2025-07-18 13:33:59.172 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.1388 ms
+2025-07-18 13:33:59.183 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=0
+2025-07-18 13:33:59.208 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 26.2762 ms
+2025-07-18 13:33:59.221 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0817 ms
+2025-07-18 13:33:59.224 +08:00 [INF] 菜單查詢請求: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Version=4
+2025-07-18 13:33:59.225 +08:00 [INF] HTTP GET /api/v1/menu responded 304 in 2.4365 ms
+2025-07-18 13:34:09.206 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 0.5618 ms
+2025-07-18 13:34:09.233 +08:00 [INF] 批次訂單上傳: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Count=1
+2025-07-18 13:34:09.324 +08:00 [INF] 批次訂單處理完成: 成功=1, 重複=0, 錯誤=0
+2025-07-18 13:34:09.327 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 200 in 118.1058 ms
+2025-07-18 13:34:24.075 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.2435 ms
+2025-07-18 13:34:24.082 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:34:24.122 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 42.7067 ms
+2025-07-18 13:34:25.747 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.0430 ms
+2025-07-18 13:34:25.748 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:34:25.751 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 3.0716 ms
+2025-07-18 13:34:27.019 +08:00 [INF] HTTP OPTIONS /api/v1/reports responded 204 in 0.0543 ms
+2025-07-18 13:34:27.028 +08:00 [INF] HTTP GET /api/v1/reports responded 200 in 6.7163 ms
+2025-07-18 13:34:28.051 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:34:28.056 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 5.8049 ms
+2025-07-18 13:34:33.192 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices responded 204 in 0.0725 ms
+2025-07-18 13:34:33.202 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 8.4886 ms
+2025-07-18 13:34:37.936 +08:00 [INF] HTTP OPTIONS /api/v1/auth/devices/e2fae503-ee06-453e-858f-bb0f6c846fe6/disable responded 204 in 0.0729 ms
+2025-07-18 13:34:37.945 +08:00 [INF] 成功停用裝置: 6SH27M
+2025-07-18 13:34:37.945 +08:00 [INF] HTTP PUT /api/v1/auth/devices/e2fae503-ee06-453e-858f-bb0f6c846fe6/disable responded 200 in 7.9613 ms
+2025-07-18 13:34:37.951 +08:00 [INF] HTTP GET /api/v1/auth/devices responded 200 in 2.3357 ms
+2025-07-18 13:34:43.799 +08:00 [INF] HTTP OPTIONS /api/v1/orders/bulk responded 204 in 0.1319 ms
+2025-07-18 13:34:43.802 +08:00 [INF] 批次訂單上傳: DeviceId=6569e009-8d16-4a1b-84e2-5a1555c08715, Count=2
+2025-07-18 13:34:43.810 +08:00 [INF] 批次訂單處理完成: 成功=1, 重複=1, 錯誤=0
+2025-07-18 13:34:43.810 +08:00 [INF] HTTP POST /api/v1/orders/bulk responded 200 in 9.5493 ms
+2025-07-18 13:34:46.450 +08:00 [INF] HTTP OPTIONS /api/v1/menu responded 204 in 0.2294 ms
+2025-07-18 13:34:46.454 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:34:46.459 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 7.3710 ms
+2025-07-18 13:34:48.715 +08:00 [INF] 菜單查詢請求: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, Version=null
+2025-07-18 13:34:48.718 +08:00 [INF] HTTP GET /api/v1/menu responded 200 in 3.7907 ms
+2025-07-18 13:34:52.265 +08:00 [INF] HTTP OPTIONS /api/v1/orders responded 204 in 0.0975 ms
+2025-07-18 13:34:52.268 +08:00 [INF] 訂單查詢: DeviceId=ad3bba14-6371-4ffa-a81f-555c613ad1c8, OrderId=null, BusinessDay="2025-07-18T00:00:00.0000000", StartDate="2025-07-18T00:00:00.0000000", EndDate="2025-07-18T00:00:00.0000000"
+2025-07-18 13:34:52.275 +08:00 [INF] HTTP GET /api/v1/orders responded 200 in 8.7506 ms

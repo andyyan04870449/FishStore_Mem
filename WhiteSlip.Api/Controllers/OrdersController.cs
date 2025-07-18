@@ -21,6 +21,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost("bulk")]
+    [Authorize(Policy = "DeviceActive")]
     public async Task<ActionResult<object>> BulkUpload([FromBody] List<OrderRequest> orders)
     {
         try
@@ -128,6 +129,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "DeviceActive")]
     public async Task<ActionResult<object>> GetOrders(
         [FromQuery] string? orderId,
         [FromQuery] DateTime? businessDay,
@@ -194,6 +196,42 @@ public class OrdersController : ControllerBase
         {
             _logger.LogError(ex, "訂單查詢過程中發生錯誤");
             return StatusCode(500, new { message = "訂單查詢服務暫時不可用" });
+        }
+    }
+
+    [HttpPost("{orderId}/reprint")]
+    [Authorize(Policy = "DeviceActive")]
+    public async Task<ActionResult<object>> ReprintOrder(string orderId)
+    {
+        try
+        {
+            var deviceId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            _logger.LogInformation("重新列印訂單請求: DeviceId={DeviceId}, OrderId={OrderId}", deviceId, orderId);
+
+            // 檢查訂單是否存在
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return NotFound(new { message = "訂單不存在" });
+            }
+
+            // 這裡可以添加實際的列印邏輯
+            // 目前只是記錄日誌
+            _logger.LogInformation("重新列印訂單: {OrderId}, 總計: {Total}", orderId, order.Total);
+
+            return Ok(new { 
+                message = "重新列印成功",
+                orderId = orderId,
+                total = order.Total
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "重新列印訂單時發生錯誤: {OrderId}", orderId);
+            return StatusCode(500, new { message = "重新列印服務暫時不可用" });
         }
     }
 }

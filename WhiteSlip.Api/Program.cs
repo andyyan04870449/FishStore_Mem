@@ -7,6 +7,7 @@ using WhiteSlip.Api.Data;
 using WhiteSlip.Api.Models;
 using WhiteSlip.Api.Services;
 using Prometheus;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,10 +59,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
-
 // 配置服務
 builder.Services.AddScoped<IJwtService, JwtService>();
+
+// 配置授權
+builder.Services.AddScoped<IAuthorizationHandler, DeviceAuthorizationHandler>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DeviceActive", policy =>
+        policy.Requirements.Add(new DeviceAuthorizationRequirement()));
+});
 
 // 配置 Prometheus metrics
 builder.Services.AddHealthChecks()

@@ -44,31 +44,54 @@ public class AuthController : ControllerBase
                 });
             }
 
-            // 查找或創建設備
+            // 查找裝置
             var device = await _context.Devices
                 .FirstOrDefaultAsync(d => d.DeviceCode == request.DeviceCode);
 
             if (device == null)
             {
-                // 創建新設備
-                device = new Device
+                return Unauthorized(new AuthResponse
                 {
-                    DeviceCode = request.DeviceCode,
-                    LastSeen = DateTime.UtcNow
-                };
-                _context.Devices.Add(device);
-                await _context.SaveChangesAsync();
-                
-                _logger.LogInformation("創建新裝置: {DeviceCode}", request.DeviceCode);
+                    Success = false,
+                    Message = "裝置未註冊，請聯繫管理員"
+                });
             }
-            else
+
+            // 檢查裝置狀態
+            if (device.Status == DeviceStatus.Disabled)
             {
-                // 更新最後活動時間
-                device.LastSeen = DateTime.UtcNow;
-                await _context.SaveChangesAsync();
-                
-                _logger.LogInformation("裝置重新認證: {DeviceCode}", request.DeviceCode);
+                _logger.LogWarning("停用裝置嘗試認證: {DeviceCode}", request.DeviceCode);
+                return Unauthorized(new AuthResponse
+                {
+                    Success = false,
+                    Message = "裝置已被停用，請聯繫管理員"
+                });
             }
+
+            if (device.Status == DeviceStatus.Deleted)
+            {
+                _logger.LogWarning("已刪除裝置嘗試認證: {DeviceCode}", request.DeviceCode);
+                return Unauthorized(new AuthResponse
+                {
+                    Success = false,
+                    Message = "裝置已被刪除"
+                });
+            }
+
+            // 更新最後活動時間
+            device.LastSeen = DateTime.UtcNow;
+            
+            // 如果是新裝置，設置為啟用狀態
+            if (device.Status == DeviceStatus.Inactive)
+            {
+                device.Status = DeviceStatus.Active;
+                device.ActivatedAt = DateTime.UtcNow;
+                _logger.LogInformation("新裝置自動啟用: {DeviceCode}", request.DeviceCode);
+            }
+            
+            await _context.SaveChangesAsync();
+            
+            _logger.LogInformation("裝置認證成功: {DeviceCode}, Status={Status}", request.DeviceCode, device.Status);
 
             // 生成 JWT Token
             var token = _jwtService.GenerateToken(device.DeviceId.ToString());

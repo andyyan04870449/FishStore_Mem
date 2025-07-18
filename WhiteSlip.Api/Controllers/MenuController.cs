@@ -21,6 +21,7 @@ public class MenuController : ControllerBase
     }
 
     [HttpGet("latest-version")]
+    [Authorize(Policy = "DeviceActive")]
     public async Task<ActionResult<object>> GetLatestVersion()
     {
         try
@@ -51,6 +52,7 @@ public class MenuController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "DeviceActive")]
     public async Task<ActionResult<object>> GetMenu([FromQuery] int? version)
     {
         try
